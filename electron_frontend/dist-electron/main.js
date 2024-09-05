@@ -42,12 +42,12 @@ function createWindow() {
           // 새로고침
         },
         {
-          role: "forcereload",
+          role: "forceReload",
           accelerator: "CmdOrCtrl+Shift+R"
           // 강력 새로고침
         },
         {
-          role: "toggledevtools",
+          role: "toggleDevTools",
           accelerator: "CmdOrCtrl+Shift+I"
           // 개발자 도구 열기/닫기
         }
