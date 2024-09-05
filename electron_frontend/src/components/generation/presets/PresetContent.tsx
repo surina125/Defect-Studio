@@ -5,10 +5,10 @@ const { Title, Text } = Typography;
 const PresetContent = () => {
   return (
     <div className="p-4">
-      <Title level={4} className="text-gray-700 dark:text-gray-300">
+      <Title level={4} className="dark:text-gray-300">
         Preset settings
       </Title>
-      <Text type="secondary" style={{ color: '#9ca3af' }}>
+      <Text type="secondary" className="dark:text-gray-400">
         The following settings will be saved in the preset. If you would like a setting to be editable, deselect them in
         the list below.
       </Text>
@@ -21,16 +21,12 @@ const PresetContent = () => {
         {/* 왼쪽 열 */}
         <Col span={12}>
           <div>
-            {/* <input
-              type="checkbox"
-              className="w-[16px] h-[16px] rounded-md border-gray-300 focus:ring-2 focus:ring-blue-500 text-blue-600 appearance-none border-2 checked:bg-blue-600 checked:border-transparent"
-            /> */}
             <Checkbox>
               <Text strong>Model</Text>
             </Checkbox>
             <br />
             <div className="ml-[24px]">
-              <Text type="secondary" style={{ color: '#9ca3af' }}>
+              <Text type="secondary" className="dark:text-gray-400">
                 Stable Diffusion v1-5
               </Text>
             </div>
@@ -41,7 +37,7 @@ const PresetContent = () => {
             </Checkbox>
             <br />
             <div className="ml-[24px]">
-              <Text type="secondary" style={{ color: '#9ca3af' }}>
+              <Text type="secondary" className="dark:text-gray-400">
                 512
               </Text>
             </div>
@@ -52,7 +48,7 @@ const PresetContent = () => {
             </Checkbox>
             <br />
             <div className="ml-[24px]">
-              <Text type="secondary" style={{ color: '#9ca3af' }}>
+              <Text type="secondary" className="dark:text-gray-400">
                 512
               </Text>
             </div>
@@ -63,7 +59,7 @@ const PresetContent = () => {
             </Checkbox>
             <br />
             <div className="ml-[24px]">
-              <Text type="secondary" style={{ color: '#9ca3af' }}>
+              <Text type="secondary" className="dark:text-gray-400">
                 7.5
               </Text>
             </div>
@@ -74,7 +70,7 @@ const PresetContent = () => {
             </Checkbox>
             <br />
             <div className="ml-[24px]">
-              <Text type="secondary" style={{ color: '#9ca3af' }}>
+              <Text type="secondary" className="dark:text-gray-400">
                 50
               </Text>
             </div>
@@ -85,7 +81,7 @@ const PresetContent = () => {
             </Checkbox>
             <br />
             <div className="ml-[24px]">
-              <Text type="secondary" style={{ color: '#9ca3af' }}>
+              <Text type="secondary" className="dark:text-gray-400">
                 -1
               </Text>
             </div>
@@ -100,7 +96,7 @@ const PresetContent = () => {
             </Checkbox>
             <br />
             <div className="ml-[24px]">
-              <Text type="secondary" style={{ color: '#9ca3af' }}>
+              <Text type="secondary" className="dark:text-gray-400">
                 Generate a high-resolution image of a defective metal product with ...
               </Text>
             </div>
@@ -111,7 +107,7 @@ const PresetContent = () => {
             </Checkbox>
             <br />
             <div className="ml-[24px]">
-              <Text type="secondary" style={{ color: '#9ca3af' }}>
+              <Text type="secondary" className="dark:text-gray-400">
                 Do not include any smooth, undamaged surfaces, pristine ...
               </Text>
             </div>
@@ -122,7 +118,7 @@ const PresetContent = () => {
             </Checkbox>
             <br />
             <div className="ml-[24px]">
-              <Text type="secondary" style={{ color: '#9ca3af' }}>
+              <Text type="secondary" className="dark:text-gray-400">
                 1
               </Text>
             </div>
@@ -133,7 +129,7 @@ const PresetContent = () => {
             </Checkbox>
             <br />
             <div className="ml-[24px]">
-              <Text type="secondary" style={{ color: '#9ca3af' }}>
+              <Text type="secondary" className="dark:text-gray-400">
                 1
               </Text>
             </div>
@@ -144,7 +140,7 @@ const PresetContent = () => {
             </Checkbox>
             <br />
             <div className="ml-[24px]">
-              <Text type="secondary" style={{ color: '#9ca3af' }}>
+              <Text type="secondary" className="dark:text-gray-400">
                 DPM++ 2M
               </Text>
             </div>
