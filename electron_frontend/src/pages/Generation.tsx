@@ -14,20 +14,16 @@ const Generation = () => {
   // 사이드바 열림/닫힘 상태 관리
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  // 모달 열림/닫힘 상태 관리
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // 사이드바 토글 함수
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
-  // 모달 열기 함수
   const showModal = () => {
     setIsModalOpen(true);
   };
 
-  // 모달 닫기 함수
   const closeModal = () => {
     setIsModalOpen(false);
   };
@@ -119,22 +115,22 @@ const Generation = () => {
 
       {/* 모달 컴포넌트 (Ant Design) */}
       <Modal
-        title="Create Preset"
-        visible={isModalOpen}
+        open={isModalOpen}
         onCancel={closeModal}
         footer={null}
         width={600}
         centered
-        bodyStyle={{
-          maxHeight: '80vh',
-          overflowY: 'auto' // 스크롤 활성화
+        styles={{
+          body: {
+            maxHeight: '80vh',
+            overflowY: 'auto' // 스크롤 활성화
+          }
         }}
-        className="custom-scrollbar"
       >
         <PresetContent />
-        <div className="flex justify-between mt-4">
+        <div className="flex justify-end mt-4 gap-4">
           <Button onClick={closeModal}>Cancel</Button>
-          <Button type="primary">Create Preset</Button>
+          <Button type="primary">Create</Button>
         </div>
       </Modal>
     </div>
