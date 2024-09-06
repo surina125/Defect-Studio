@@ -1,13 +1,13 @@
-import { useCallback, useEffect, useRef } from "react";
-import { Button, Slider, Tooltip, InputNumber, Modal } from "antd";
-import * as fabric from "fabric";
-import { IoBrush } from "react-icons/io5";
-import { PiPolygonBold } from "react-icons/pi";
-import { GrSelect } from "react-icons/gr";
-import { useFabric } from "../../../contexts/FabricContext";
+import { useCallback, useEffect, useRef } from 'react';
+import { Button, Slider, Tooltip, InputNumber, Modal } from 'antd';
+import * as fabric from 'fabric';
+import { IoBrush } from 'react-icons/io5';
+import { PiPolygonBold } from 'react-icons/pi';
+import { GrSelect } from 'react-icons/gr';
+import { useFabric } from '../../../contexts/FabricContext';
 
 const RADIUS = 4;
-const DEFAULT_COLOR = "rgba(135, 206, 235, 0.5)";
+const DEFAULT_COLOR = 'rgba(135, 206, 235, 0.5)';
 const TOOLBAR_HEIGHT = 60;
 
 interface Point {
@@ -18,12 +18,7 @@ interface Point {
 type Lasso = Point[][];
 
 // 곡선을 계산하는 함수 (Hermite 보간법 사용)
-const calCurve = (
-  points: number[],
-  tension = 0.5,
-  numOfSeg = 20,
-  close = true
-): number[] => {
+const calCurve = (points: number[], tension = 0.5, numOfSeg = 20, close = true): number[] => {
   let pts = points.slice(0); // 원본 배열을 복사하여 사용
   let res = []; // 결과 포인트를 저장할 배열
   let cachePtr = 4; // 캐시 배열의 시작 위치
@@ -75,16 +70,8 @@ const calCurve = (
       const h01 = -2 * t3 + 3 * t2;
       const h11 = t3 - t2;
 
-      const x =
-        h00 * pt2[0] +
-        h10 * tension * (pt3[0] - pt1[0]) +
-        h01 * pt3[0] +
-        h11 * tension * (pt3[0] - pt2[0]);
-      const y =
-        h00 * pt2[1] +
-        h10 * tension * (pt3[1] - pt1[1]) +
-        h01 * pt3[1] +
-        h11 * tension * (pt3[1] - pt2[1]);
+      const x = h00 * pt2[0] + h10 * tension * (pt3[0] - pt1[0]) + h01 * pt3[0] + h11 * tension * (pt3[0] - pt2[0]);
+      const y = h00 * pt2[1] + h10 * tension * (pt3[1] - pt1[1]) + h01 * pt3[1] + h11 * tension * (pt3[1] - pt2[1]);
 
       res.push(x, y); // 계산된 x, y 포인트를 결과 배열에 추가
     }
@@ -92,29 +79,14 @@ const calCurve = (
 
   // 닫힌 곡선일 경우 마지막 부분 곡선 처리
   if (close) {
-    pts = [
-      points[l - 4],
-      points[l - 3],
-      points[l - 2],
-      points[l - 1],
-      points[0],
-      points[1],
-      points[2],
-      points[3],
-    ];
+    pts = [points[l - 4], points[l - 3], points[l - 2], points[l - 1], points[0], points[1], points[2], points[3]];
     res = res.concat(parse(pts, cache, 4, tension, numOfSeg));
   }
 
   return res; // 최종 계산된 곡선 포인트 반환
 };
 
-function parse(
-  pts: number[],
-  cache: Float32Array,
-  l: number,
-  tension: number,
-  numOfSeg: number
-): number[] {
+function parse(pts: number[], cache: Float32Array, l: number, tension: number, numOfSeg: number): number[] {
   const res: number[] = [];
 
   for (let i = 2; i < l; i += 2) {
@@ -131,14 +103,8 @@ function parse(
       const c = t * 4;
 
       res.push(
-        cache[c] * pt1 +
-          cache[c + 1] * pt3 +
-          cache[c + 2] * t1x +
-          cache[c + 3] * t2x,
-        cache[c] * pt2 +
-          cache[c + 1] * pt4 +
-          cache[c + 2] * t1y +
-          cache[c + 3] * t2y
+        cache[c] * pt1 + cache[c + 1] * pt3 + cache[c + 2] * t1x + cache[c + 3] * t2x,
+        cache[c] * pt2 + cache[c + 1] * pt4 + cache[c + 2] * t1y + cache[c + 3] * t2y
       );
     }
   }
@@ -165,10 +131,7 @@ const pointsArrayToObj = (points: number[]): Point[] => {
 };
 
 // 이전 요소들을 제거하는 함수
-const clearPreviousElements = (
-  drawCanvas: fabric.Canvas,
-  curIndex: number
-): void => {
+const clearPreviousElements = (drawCanvas: fabric.Canvas, curIndex: number): void => {
   const fabricObjects = drawCanvas.getObjects();
   fabricObjects.forEach((curElement) => {
     const element = curElement as fabric.Object & { lassoIndex?: number }; // 타입 단언을 사용하여 lassoIndex 속성을 추가
@@ -179,11 +142,7 @@ const clearPreviousElements = (
 };
 
 // 윤곽선을 그리는 함수
-const drawContour = (
-  drawCanvas: fabric.Canvas,
-  lassos: Lasso,
-  curIndex: number
-): void => {
+const drawContour = (drawCanvas: fabric.Canvas, lassos: Lasso, curIndex: number): void => {
   const points = lassos[curIndex];
   if (points.length < 2) return;
   const newPoints = calCurve(pointsObjToArray(points));
@@ -193,7 +152,7 @@ const drawContour = (
   const polygon = new fabric.Polyline(curvePoints, {
     fill: DEFAULT_COLOR,
     selectable: false,
-    hoverCursor: "crosshair", // 마우스 커서를 항상 crosshair로 유지
+    hoverCursor: 'crosshair' // 마우스 커서를 항상 crosshair로 유지
   } as fabric.Polyline); // 여기에서 타입 단언을 통해 타입 지정
 
   // lassoIndex 속성을 안전하게 추가하기 위해 타입 단언 사용
@@ -203,18 +162,14 @@ const drawContour = (
 };
 
 // 제어 점을 그리는 함수
-const drawControlPoints = (
-  drawCanvas: fabric.Canvas,
-  lassos: Lasso,
-  curIndex: number
-): void => {
+const drawControlPoints = (drawCanvas: fabric.Canvas, lassos: Lasso, curIndex: number): void => {
   lassos[curIndex].forEach((point) => {
     const circle = new fabric.Circle({
       top: point.y - RADIUS,
       left: point.x - RADIUS,
       radius: RADIUS,
-      fill: "rgba(56, 189, 248, 0.9)",
-      selectable: false,
+      fill: 'rgba(56, 189, 248, 0.9)',
+      selectable: false
     });
 
     // 타입 단언을 통해 lassoIndex 속성을 추가
@@ -242,7 +197,7 @@ const InpaintingModal = ({ imageSrc, onClose }: InpaintingModalProps) => {
     setActiveIndex,
     setImageDownloadUrl,
     setCanvasDownloadUrl,
-    setMaskingResult,
+    setMaskingResult
   } = useFabric();
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -333,11 +288,11 @@ const InpaintingModal = ({ imageSrc, onClose }: InpaintingModalProps) => {
         }
       };
 
-      window.addEventListener("resize", resizeHandler);
+      window.addEventListener('resize', resizeHandler);
 
       // 키보드 이벤트 추가
       const handleKeyDown = (event: KeyboardEvent) => {
-        if (event.key === "Delete" || event.key === "Backspace") {
+        if (event.key === 'Delete' || event.key === 'Backspace') {
           if (drawCanvas.current) {
             const activeObjects = drawCanvas.current.getActiveObjects();
             if (activeObjects.length > 0) {
@@ -351,11 +306,11 @@ const InpaintingModal = ({ imageSrc, onClose }: InpaintingModalProps) => {
         }
       };
 
-      document.addEventListener("keydown", handleKeyDown);
+      document.addEventListener('keydown', handleKeyDown);
 
       return () => {
-        window.removeEventListener("resize", resizeHandler);
-        document.removeEventListener("keydown", handleKeyDown);
+        window.removeEventListener('resize', resizeHandler);
+        document.removeEventListener('keydown', handleKeyDown);
       };
     }
   }, [imageSrc, drawCanvas, resizeCanvasToFit]);
@@ -366,11 +321,11 @@ const InpaintingModal = ({ imageSrc, onClose }: InpaintingModalProps) => {
 
     drawCanvas.current.isDrawingMode = false;
     drawCanvas.current.selection = false;
-    drawCanvas.current.off("mouse:down");
+    drawCanvas.current.off('mouse:down');
 
     // 객체 삭제할 때 점도 삭제되게 하기 위해서 처리
     const objectsToRemove = drawCanvas.current.getObjects().filter((obj) => {
-      return obj.type === "circle" && obj.fill === "rgba(56, 189, 248, 0.9)";
+      return obj.type === 'circle' && obj.fill === 'rgba(56, 189, 248, 0.9)';
     });
 
     objectsToRemove.forEach((obj) => {
@@ -393,12 +348,12 @@ const InpaintingModal = ({ imageSrc, onClose }: InpaintingModalProps) => {
 
     if (!drawCanvas.current) return; // drawCanvas.current가 null인지 확인
 
-    if (drawType !== "LASSO_DRAW") {
-      setDrawType("LASSO_DRAW"); // 드로잉 타입을 LASSO_DRAW로 설정
+    if (drawType !== 'LASSO_DRAW') {
+      setDrawType('LASSO_DRAW'); // 드로잉 타입을 LASSO_DRAW로 설정
       drawCanvas.current.isDrawingMode = false; // 드로잉 모드를 비활성화
 
       // 커서를 십자선(crosshair) 모양으로 변경
-      drawCanvas.current.defaultCursor = "crosshair";
+      drawCanvas.current.defaultCursor = 'crosshair';
 
       // 이전 폴리곤 점들을 초기화하지 않고 새로운 폴리곤을 시작
       const newLassos = [...lassos];
@@ -407,8 +362,8 @@ const InpaintingModal = ({ imageSrc, onClose }: InpaintingModalProps) => {
       setLassos(newLassos);
       setActiveIndex({ lassoIndex: curIndex, pointIndex: -1 }); // 활성 인덱스 설정
 
-      drawCanvas.current.off("mouse:down"); // 기존 'mouse:down' 이벤트 핸들러 제거
-      drawCanvas.current.on("mouse:down", function (options) {
+      drawCanvas.current.off('mouse:down'); // 기존 'mouse:down' 이벤트 핸들러 제거
+      drawCanvas.current.on('mouse:down', function (options) {
         const pointer = drawCanvas.current!.getPointer(options.e); // 클릭한 위치의 좌표를 가져옴
         newLassos[curIndex].push({ x: pointer.x, y: pointer.y }); // 클릭한 위치를 현재 폴리곤에 추가
 
@@ -417,8 +372,8 @@ const InpaintingModal = ({ imageSrc, onClose }: InpaintingModalProps) => {
           left: pointer.x,
           top: pointer.y,
           radius: RADIUS,
-          fill: "rgba(56, 189, 248, 0.9)", // 하늘색으로 채움
-          selectable: false, // 선택 불가능하도록 설정
+          fill: 'rgba(56, 189, 248, 0.9)', // 하늘색으로 채움
+          selectable: false // 선택 불가능하도록 설정
         }) as LassoCircle;
 
         pointIndicator.lassoIndex = curIndex; // lassoIndex 설정
@@ -434,19 +389,11 @@ const InpaintingModal = ({ imageSrc, onClose }: InpaintingModalProps) => {
         setActiveIndex({ lassoIndex: curIndex, pointIndex: -1 }); // 활성 인덱스를 업데이트
       });
     } else {
-      setDrawType("NONE"); // 드로잉 타입을 NONE으로 설정
-      drawCanvas.current.defaultCursor = "default"; // 기본 커서로 복원
-      drawCanvas.current.off("mouse:down"); // 'mouse:down' 이벤트 핸들러 제거
+      setDrawType('NONE'); // 드로잉 타입을 NONE으로 설정
+      drawCanvas.current.defaultCursor = 'default'; // 기본 커서로 복원
+      drawCanvas.current.off('mouse:down'); // 'mouse:down' 이벤트 핸들러 제거
     }
-  }, [
-    setDrawType,
-    drawCanvas,
-    drawType,
-    lassos,
-    setLassos,
-    setActiveIndex,
-    resetSelection,
-  ]);
+  }, [setDrawType, drawCanvas, drawType, lassos, setLassos, setActiveIndex, resetSelection]);
 
   // 브러쉬 선택 도구를 처리하는 함수
   const handleBrushSelect = useCallback(() => {
@@ -454,8 +401,8 @@ const InpaintingModal = ({ imageSrc, onClose }: InpaintingModalProps) => {
 
     if (!drawCanvas.current) return; // drawCanvas.current가 null인지 확인
 
-    if (drawType !== "FREE_DRAW") {
-      setDrawType("FREE_DRAW");
+    if (drawType !== 'FREE_DRAW') {
+      setDrawType('FREE_DRAW');
       drawCanvas.current.isDrawingMode = true;
 
       const brush = new fabric.PencilBrush(drawCanvas.current);
@@ -464,7 +411,7 @@ const InpaintingModal = ({ imageSrc, onClose }: InpaintingModalProps) => {
 
       drawCanvas.current.freeDrawingBrush = brush;
     } else {
-      setDrawType("NONE");
+      setDrawType('NONE');
       drawCanvas.current.isDrawingMode = false;
     }
   }, [setDrawType, drawCanvas, penWidth, drawType, resetSelection]);
@@ -475,8 +422,8 @@ const InpaintingModal = ({ imageSrc, onClose }: InpaintingModalProps) => {
 
     if (!drawCanvas.current) return; // drawCanvas.current가 null인지 확인
 
-    if (drawType !== "OBJECT_SELECT") {
-      setDrawType("OBJECT_SELECT");
+    if (drawType !== 'OBJECT_SELECT') {
+      setDrawType('OBJECT_SELECT');
       drawCanvas.current.isDrawingMode = false;
       drawCanvas.current.selection = true;
 
@@ -484,10 +431,10 @@ const InpaintingModal = ({ imageSrc, onClose }: InpaintingModalProps) => {
         obj.selectable = true;
         obj.evented = true;
 
-        obj.on("mousedown", function () {
+        obj.on('mousedown', function () {
           if (drawCanvas.current) {
             // drawCanvas.current가 null인지 다시 확인
-            drawCanvas.current.defaultCursor = "move";
+            drawCanvas.current.defaultCursor = 'move';
           }
         });
 
@@ -500,32 +447,32 @@ const InpaintingModal = ({ imageSrc, onClose }: InpaintingModalProps) => {
           br: true,
           tl: true,
           tr: true,
-          mtr: true,
+          mtr: true
         });
 
         obj.set({
-          hoverCursor: "move",
-          cornerStyle: "circle",
-          cornerColor: "blue",
-          borderColor: "blue",
+          hoverCursor: 'move',
+          cornerStyle: 'circle',
+          cornerColor: 'blue',
+          borderColor: 'blue',
           cornerSize: 12,
           transparentCorners: false,
-          rotatingPointOffset: 20,
+          rotatingPointOffset: 20
         });
       });
 
-      drawCanvas.current.on("selection:cleared", function () {
+      drawCanvas.current.on('selection:cleared', function () {
         if (drawCanvas.current) {
           // drawCanvas.current가 null인지 다시 확인
-          drawCanvas.current.defaultCursor = "default";
+          drawCanvas.current.defaultCursor = 'default';
         }
       });
     } else {
-      setDrawType("NONE");
+      setDrawType('NONE');
       if (drawCanvas.current) {
         // drawCanvas.current가 null인지 확인
         drawCanvas.current.selection = false;
-        drawCanvas.current.defaultCursor = "default";
+        drawCanvas.current.defaultCursor = 'default';
       }
     }
   }, [setDrawType, drawCanvas, drawType, resetSelection]);
@@ -538,16 +485,16 @@ const InpaintingModal = ({ imageSrc, onClose }: InpaintingModalProps) => {
       const zoom = drawCanvas.current.getZoom();
 
       // 최종 결과를 렌더링하기 위한 오프스크린 캔버스를 생성
-      const offscreenCanvas = document.createElement("canvas");
+      const offscreenCanvas = document.createElement('canvas');
       offscreenCanvas.width = canvasWidth;
       offscreenCanvas.height = canvasHeight;
-      const offscreenCtx = offscreenCanvas.getContext("2d");
+      const offscreenCtx = offscreenCanvas.getContext('2d');
 
       // 최종 결합 이미지를 위한 캔버스 생성
-      const finalCanvas = document.createElement("canvas");
+      const finalCanvas = document.createElement('canvas');
       finalCanvas.width = canvasWidth;
       finalCanvas.height = canvasHeight;
-      const finalCtx = finalCanvas.getContext("2d");
+      const finalCtx = finalCanvas.getContext('2d');
 
       if (offscreenCtx && finalCtx) {
         // 오프스크린 캔버스를 지움
@@ -568,7 +515,7 @@ const InpaintingModal = ({ imageSrc, onClose }: InpaintingModalProps) => {
 
           // 각 객체를 오프스크린 컨텍스트에 렌더링
           clone.set({
-            globalCompositeOperation: "source-over",
+            globalCompositeOperation: 'source-over'
           });
 
           // 클론을 오프스크린 컨텍스트에 렌더링
@@ -576,8 +523,7 @@ const InpaintingModal = ({ imageSrc, onClose }: InpaintingModalProps) => {
         });
 
         // 배경 이미지를 처리
-        const backgroundImg = drawCanvas.current
-          .backgroundImage as fabric.Image;
+        const backgroundImg = drawCanvas.current.backgroundImage as fabric.Image;
         if (backgroundImg) {
           const backgroundImgUrl = backgroundImg.getSrc();
 
@@ -590,16 +536,11 @@ const InpaintingModal = ({ imageSrc, onClose }: InpaintingModalProps) => {
             finalCtx.drawImage(offscreenCanvas, 0, 0);
 
             // 최종 캔버스를 데이터 URL로 변환하여 저장
-            const finalImageDataUrl = finalCanvas.toDataURL("image/png");
+            const finalImageDataUrl = finalCanvas.toDataURL('image/png');
             setMaskingResult(finalImageDataUrl); // 배경 이미지와 투명 객체를 결합한 이미지를 저장
 
             // 이제 오프스크린 캔버스를 흑백 변환 준비
-            const imageData = offscreenCtx.getImageData(
-              0,
-              0,
-              canvasWidth,
-              canvasHeight
-            );
+            const imageData = offscreenCtx.getImageData(0, 0, canvasWidth, canvasHeight);
             const data = imageData.data;
 
             // 모든 픽셀을 순회하며 투명도에 따라 색상 변경
@@ -625,26 +566,25 @@ const InpaintingModal = ({ imageSrc, onClose }: InpaintingModalProps) => {
             offscreenCtx.putImageData(imageData, 0, 0);
 
             // 오프스크린 캔버스를 데이터 URL로 변환하여 저장
-            const canvasDataUrl = offscreenCanvas.toDataURL("image/png");
+            const canvasDataUrl = offscreenCanvas.toDataURL('image/png');
             setCanvasDownloadUrl(canvasDataUrl); // 흑백 버전을 저장 (투명 = 검은색, 색상 = 흰색)
 
             // `setImageDownloadUrl`을 `setCanvasDownloadUrl`의 가로세로 크기에 맞춰 변형
-            const transformedImgCanvas = document.createElement("canvas");
+            const transformedImgCanvas = document.createElement('canvas');
             transformedImgCanvas.width = canvasWidth;
             transformedImgCanvas.height = canvasHeight;
-            const transformedImgCtx = transformedImgCanvas.getContext("2d");
+            const transformedImgCtx = transformedImgCanvas.getContext('2d');
 
             if (transformedImgCtx) {
               transformedImgCtx.drawImage(img, 0, 0, canvasWidth, canvasHeight);
-              const transformedImgUrl =
-                transformedImgCanvas.toDataURL("image/png");
+              const transformedImgUrl = transformedImgCanvas.toDataURL('image/png');
               setImageDownloadUrl(transformedImgUrl);
             }
           };
           img.src = backgroundImgUrl;
         } else {
           // 배경 이미지가 없을 경우 투명 배경에 객체들만 저장
-          const finalImageDataUrl = offscreenCanvas.toDataURL("image/png");
+          const finalImageDataUrl = offscreenCanvas.toDataURL('image/png');
           setMaskingResult(finalImageDataUrl); // 캔버스 결과를 마스킹 결과로 저장
           setCanvasDownloadUrl(finalImageDataUrl); // 캔버스 다운로드 URL 업데이트
           setImageDownloadUrl(finalImageDataUrl); // 동일한 이미지 URL 설정
@@ -653,13 +593,7 @@ const InpaintingModal = ({ imageSrc, onClose }: InpaintingModalProps) => {
         onClose(); // 모달을 닫음
       }
     }
-  }, [
-    drawCanvas,
-    setCanvasDownloadUrl,
-    setImageDownloadUrl,
-    setMaskingResult,
-    onClose,
-  ]);
+  }, [drawCanvas, setCanvasDownloadUrl, setImageDownloadUrl, setMaskingResult, onClose]);
 
   // 캔버스를 초기화하는 함수
   const handleClearCanvasClick = useCallback(() => {
@@ -682,11 +616,7 @@ const InpaintingModal = ({ imageSrc, onClose }: InpaintingModalProps) => {
       // number | null 타입을 처리할 수 있도록 수정
       if (value !== null) {
         setPenWidth(value);
-        if (
-          drawCanvas.current &&
-          drawCanvas.current.isDrawingMode &&
-          drawCanvas.current.freeDrawingBrush
-        ) {
+        if (drawCanvas.current && drawCanvas.current.isDrawingMode && drawCanvas.current.freeDrawingBrush) {
           drawCanvas.current.freeDrawingBrush.width = value;
         }
       }
@@ -701,20 +631,14 @@ const InpaintingModal = ({ imageSrc, onClose }: InpaintingModalProps) => {
       footer={null} // 기본 푸터 제거하여 추가 버튼 방지
       width="90vw"
       style={{ top: 20 }} // 필요한 경우 위치 조정을 위한 인라인 스타일 사용
-      styles={{ body: { height: "85vh", padding: 0 } }} // Body 스타일로 높이 조정 포함
+      styles={{ body: { height: '85vh', padding: 0 } }} // Body 스타일로 높이 조정 포함
     >
       <div className="h-[85vh] flex flex-col">
         <div className="flex-1 flex justify-center items-center overflow-hidden">
-          <canvas
-            ref={canvasRef}
-            className="border border-gray-300 max-w-full max-h-full"
-          />
+          <canvas ref={canvasRef} className="border border-gray-300 max-w-full max-h-full" />
         </div>
-        <div
-          className="h-[60px] flex items-center px-8"
-          style={{ flexShrink: 0 }}
-        >
-          {" "}
+        <div className="h-[60px] flex items-center px-8" style={{ flexShrink: 0 }}>
+          {' '}
           {/* 하단 도구 영역 고정 높이 및 좌우 여백 */}
           <div className="flex items-center mr-8">
             <p className="text-[16px] mr-2">Brush Size:</p>
@@ -739,7 +663,7 @@ const InpaintingModal = ({ imageSrc, onClose }: InpaintingModalProps) => {
             <Button
               icon={<IoBrush className="w-[20px] h-[20px]" />}
               onClick={handleBrushSelect}
-              type={drawType === "FREE_DRAW" ? "primary" : "default"}
+              type={drawType === 'FREE_DRAW' ? 'primary' : 'default'}
               className="ml-4 p-2 flex items-center justify-center"
             />
           </Tooltip>
@@ -747,7 +671,7 @@ const InpaintingModal = ({ imageSrc, onClose }: InpaintingModalProps) => {
             <Button
               icon={<PiPolygonBold className="w-[20px] h-[20px]" />}
               onClick={handlePolygonSelect}
-              type={drawType === "LASSO_DRAW" ? "primary" : "default"}
+              type={drawType === 'LASSO_DRAW' ? 'primary' : 'default'}
               className="ml-4 p-2 flex items-center justify-center"
             />
           </Tooltip>
@@ -755,23 +679,14 @@ const InpaintingModal = ({ imageSrc, onClose }: InpaintingModalProps) => {
             <Button
               icon={<GrSelect className="w-[20px] h-[20px]" />}
               onClick={handleObjectSelect}
-              type={drawType === "OBJECT_SELECT" ? "primary" : "default"}
+              type={drawType === 'OBJECT_SELECT' ? 'primary' : 'default'}
               className="ml-4 p-2 flex items-center justify-center"
             />
           </Tooltip>
-          <Button
-            key="clear"
-            onClick={handleClearCanvasClick}
-            className="ml-auto text-[16px] w-[80px] h-[35px]"
-          >
+          <Button key="clear" onClick={handleClearCanvasClick} className="ml-auto text-[16px] w-[80px] h-[35px]">
             Clear
           </Button>
-          <Button
-            key="apply"
-            type="primary"
-            onClick={handleApply}
-            className="ml-2 text-[16px] w-[80px] h-[35px]"
-          >
+          <Button key="apply" type="primary" onClick={handleApply} className="ml-2 text-[16px] w-[80px] h-[35px]">
             Apply
           </Button>
         </div>
