@@ -12,6 +12,7 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import { FabricProvider } from './contexts/FabricContext';
 import PrivateRoute from './components/routing/PrivateRoute';
+import Settings from './pages/Settings';
 
 function AppContent() {
   return (
@@ -65,10 +66,10 @@ function AppContent() {
             }
           />
           <Route
-            path="/docs"
+            path="/settings"
             element={
               <PrivateRoute>
-                <Docs />
+                <Settings />
               </PrivateRoute>
             }
           />
