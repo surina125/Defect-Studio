@@ -1,44 +1,8 @@
-import { useQuery } from "@tanstack/react-query";
-import { Select } from "antd";
-import { AxiosError, AxiosResponse } from "axios";
-import { getAllDepartments } from "../../../api/getAllDepartment";
-<Select
-  showSearch
-  style={{ width: 200 }}
-  placeholder="Search to Select"
-  optionFilterProp="label"
-  filterSort={(optionA, optionB) =>
-    (optionA?.label ?? "")
-      .toLowerCase()
-      .localeCompare((optionB?.label ?? "").toLowerCase())
-  }
-  options={[
-    {
-      value: "1",
-      label: "Not Identified",
-    },
-    {
-      value: "2",
-      label: "Closed",
-    },
-    {
-      value: "3",
-      label: "Communicated",
-    },
-    {
-      value: "4",
-      label: "Identified",
-    },
-    {
-      value: "5",
-      label: "Resolved",
-    },
-    {
-      value: "6",
-      label: "Cancelled",
-    },
-  ]}
-/>;
+import { useQuery } from '@tanstack/react-query';
+import { Select } from 'antd';
+import { AxiosError, AxiosResponse } from 'axios';
+import { getAllDepartments } from '../../../api/department';
+import SearchDepartmentPeople from './SearchDepartmentPeople';
 
 type departmentType = {
   department_id: number;
@@ -57,15 +21,15 @@ const TokenDistribution = () => {
     SelectOptionType[],
     string[]
   >({
-    queryKey: ["departments"],
+    queryKey: ['departments'],
     queryFn: getAllDepartments,
     select: (response) =>
       response.data.map((department) => {
         return {
           value: department.department_id,
-          label: department.department_name,
+          label: department.department_name
         };
-      }),
+      })
   });
 
   return (
@@ -73,22 +37,24 @@ const TokenDistribution = () => {
       {/* 부서 선택 */}
       <section className="flex flex-col">
         {isLoading && <div>Loading...</div>}
-        {isError && <div>{error?.message || "Try again Later"}</div>}
+        {isError && <div>{error?.message || 'Try again Later'}</div>}
         {data && (
           <Select
             className="align-middle"
             showSearch
-            style={{ width: "100%" }}
+            style={{ width: '100%' }}
             placeholder="Search to Select Department"
             optionFilterProp="label"
             filterSort={(optionA, optionB) =>
-              (optionA?.label ?? "")
-                .toLowerCase()
-                .localeCompare((optionB?.label ?? "").toLowerCase())
+              (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
             }
             options={[...data]}
           />
         )}
+      </section>
+      <section className="flex flex-col">
+        <p>Please choose the people to whom the tokens will be distributed.</p>
+        <SearchDepartmentPeople departmentsId={1} />
       </section>
     </div>
   );

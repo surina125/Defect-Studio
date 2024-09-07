@@ -1,43 +1,42 @@
-import './SearchDepartments.css';
 import { useQuery } from '@tanstack/react-query';
-import { getAllDepartments } from '../../../api/department';
-import { AxiosError, AxiosResponse } from 'axios';
 import { Select, Space } from 'antd';
-
-type departmentType = {
-  department_id: number;
-  department_name: string;
-};
+import { AxiosError, AxiosResponse } from 'axios';
+import { DepartmentPersonType } from '../../../api/department';
+import { getDepartmentPeople } from '../../../api/department';
 
 type AntdSelectOptionType = {
   value: number;
   label: string;
+  name: string;
+  quantity: number;
 };
 
 type PropsType = {
-  departmentsId: number[];
-  setDepartmentsId: (departmentsId: number[]) => void;
+  departmentsId: number;
 };
 
-const SearchDepartments = ({ departmentsId, setDepartmentsId }: PropsType) => {
+const SearchDepartmentPeople = ({ departmentsId }: PropsType) => {
   //부서 불러오기
-  const {
-    data = [],
-    isPending,
-    isError,
-    error
-  } = useQuery<AxiosResponse<departmentType[]>, AxiosError, AntdSelectOptionType[], string[]>({
-    queryKey: ['departments'],
-    queryFn: getAllDepartments,
-    select: (response) =>
-      response.data.map((department) => {
+  //컴포넌트 출력
+  const { data, isPending, isError, error } = useQuery<
+    AxiosResponse<DepartmentPersonType[]>,
+    AxiosError,
+    AntdSelectOptionType[],
+    (string | number)[]
+  >({
+    queryKey: ['department_people', departmentsId],
+    queryFn: () => getDepartmentPeople(departmentsId),
+    select: (data) =>
+      data.data.map((department) => {
         return {
-          value: department.department_id,
-          label: department.department_name
+          value: department.member_id,
+          label: department.name,
+          name: department.name,
+          quantity: department.token_quantity
         };
       })
   });
-  //컴포넌트 출력
+
   return (
     <section className="token-issurance-department-container">
       <div>
@@ -52,8 +51,6 @@ const SearchDepartments = ({ departmentsId, setDepartmentsId }: PropsType) => {
             showSearch
             mode="multiple"
             filterOption={(input, option) => (option?.label ?? '').toLowerCase().includes(input.toLowerCase())}
-            value={departmentsId}
-            onChange={setDepartmentsId}
             notFoundContent={isPending ? 'Loading...' : 'Not Found'}
             style={{ width: '100%' }}
             options={data}
@@ -69,4 +66,4 @@ const SearchDepartments = ({ departmentsId, setDepartmentsId }: PropsType) => {
   );
 };
 
-export default SearchDepartments;
+export default SearchDepartmentPeople;
