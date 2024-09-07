@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { getUserInfo } from '../../api/getUserInfo';
 import { useEffect } from 'react';
+import { logout } from '../../api/user';
 interface miniProfilePropsType {
   nickname: string;
   department_name: string;
@@ -32,11 +33,12 @@ const MiniProfile = ({ nickname, department_name, email, member_pk }: miniProfil
 
         <section>
           <p className="absolute left-[114px] top-[10px] text-base text-left text-black">{nickname}</p>
-          <p className="absolute left-[49px] top-[35px] text-base text-left text-black">Samsumg Electronic Co. DX</p>
-          <p className="absolute left-[99px] top-[55px] text-sm text-left text-[#47415e]">ssafy@ssafy.com</p>
+          <p className="absolute left-[49px] top-[35px] text-base text-left text-black">{department_name}</p>
+          <p className="absolute left-[99px] top-[55px] text-sm text-left text-[#47415e]">{email}</p>
           <div className="w-[94px] h-[37px] absolute left-[38px] top-[100px]">
             <button
               onClick={() => {
+                logout();
                 navigate('/login');
               }}
               className="btn w-[94px] h-[37px] absolute left-[-1px] top-[-1px] rounded-[10px] text-base bg-[#fd7272] hover:bg-[#f26a6a] text-white active:scale-95"

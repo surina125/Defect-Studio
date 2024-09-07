@@ -7,6 +7,7 @@ import logo from '../../assets/logo.png';
 import token from '../../assets/token.png';
 import { Dropdown, Button, Switch } from 'antd';
 import type { MenuProps } from 'antd';
+import { useGetMyInfo } from '../../api/user';
 
 import MiniProfile from '../profile/MiniProfile';
 
@@ -63,6 +64,8 @@ const Navbar = () => {
       onClick: () => selectLevel('Advanced')
     }
   ];
+
+  const { myInfo } = useGetMyInfo();
 
   return (
     <div className="fixed z-20 w-full h-[60px] flex items-center px-10 bg-white border-b border-gray-300 dark:bg-gray-800 dark:border-none">
@@ -121,15 +124,25 @@ const Navbar = () => {
       )}
 
       <div className="flex ml-auto items-center space-x-4">
-        {isLoggedIn && (
+        {isLoggedIn && myInfo && (
           <>
             <div className="flex items-center">
               <img src={token} className="w-[25px] h-[25px] object-contain" alt="token" />
               <p className="ml-2 text-base font-bold text-black dark:text-gray-300">300</p>
             </div>
-            <Dropdown overlay={<MiniProfile />} trigger={['hover']}>
-              <a onClick={(e) => e.preventDefault()}>
-                이름 {/* 여기에 사용자의 이름 또는 사용자를 나타내는 아이콘을 넣으세요 */}
+            <Dropdown
+              overlay={
+                <MiniProfile
+                  nickname={myInfo.nickname}
+                  department_name={myInfo.department_name}
+                  email={myInfo.email}
+                  member_pk={myInfo.member_pk}
+                />
+              }
+              trigger={['hover']}
+            >
+              <a className="dark:text-white text-gray-800" onClick={(e) => e.preventDefault()}>
+                {myInfo.nickname}
               </a>
             </Dropdown>
 
