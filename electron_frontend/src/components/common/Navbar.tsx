@@ -7,8 +7,26 @@ import logo from '../../assets/logo.png';
 import token from '../../assets/token.png';
 import { Dropdown, Button, Switch } from 'antd';
 import type { MenuProps } from 'antd';
+import { userInfo } from '../../api/getUserInfo';
+import { AxiosError, AxiosResponse } from 'axios';
+import { useQuery } from '@tanstack/react-query';
+import { getUserInfo } from '../../api/getUserInfo';
+import MiniProfile from '../profile/MiniProfile';
 
 const Navbar = () => {
+  const {
+    data: userData,
+    isPending,
+    isError
+  } = useQuery<AxiosResponse<userInfo>, AxiosError, userInfo, string[]>({
+    queryKey: ['userInfo'],
+    queryFn: () => getUserInfo(),
+    select: (userData) => {
+      console.log(userData.data);
+      return userData.data;
+    }
+  });
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const level = useSelector((state: RootState) => state.level);
@@ -125,7 +143,15 @@ const Navbar = () => {
               <img src={token} className="w-[25px] h-[25px] object-contain" alt="token" />
               <p className="ml-2 text-base font-bold text-black dark:text-gray-300">300</p>
             </div>
-            <p className="text-base text-black dark:text-gray-300 hidden md:block">정현수</p>
+            <Dropdown
+              overlay={<MiniProfile member_pk={userData?.member_pk} nickname={userData?.nickname} />}
+              trigger={['hover']}
+            >
+              <a onClick={(e) => e.preventDefault()}>
+                이름 {/* 여기에 사용자의 이름 또는 사용자를 나타내는 아이콘을 넣으세요 */}
+              </a>
+            </Dropdown>
+
             <Dropdown menu={{ items: levelItems }} trigger={['hover']}>
               <Button
                 type="link"
