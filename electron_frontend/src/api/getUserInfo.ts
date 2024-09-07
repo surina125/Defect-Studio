@@ -1,5 +1,6 @@
 import axiosInstance from './token/axiosInstance';
 import { apiServer } from './token/apiSERVER';
+import { AxiosError, AxiosResponse } from 'axios';
 
 export type userInfo = {
   member_pk: number;
@@ -12,12 +13,15 @@ export type userInfo = {
   token_quantity: number;
 };
 
-export const getUserInfo = async () => {
+export const getUserInfo = async (): Promise<AxiosResponse<userInfo, AxiosError>> => {
   try {
-    const response = await axiosInstance.get(apiServer + 'api/members');
-    console.log('response Data ' + response.data);
+    const response = await axiosInstance.get(apiServer + '/api/members');
+    console.log('response Data ' + response);
     return response;
   } catch (error) {
-    throw Error('Failed to fetch user info');
+    if (error.status) {
+      throw Error('Not Authorized');
+    }
+    throw Error('Unexpected error occurred'); // Add a return statement at the end of the function
   }
 };

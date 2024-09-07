@@ -3,6 +3,8 @@ import { login } from '../../api/user';
 import { useState } from 'react';
 import { message } from 'antd';
 import { useNavigate } from 'react-router-dom';
+import { setUserInfo, removeUserInfo } from '../../store/slices/userInfoSlice';
+import { getUserInfo } from '../../api/getUserInfo';
 
 interface LoginFormInputs {
   username: string;
@@ -19,12 +21,15 @@ const onSubmit = async (
     const response = await login(data);
     console.log(response);
     message.success('Login successful');
+    const userInfoResoponse = await getUserInfo();
+    setUserInfo(userInfoResoponse.data);
     setErrorMessage(''); // 에러 메시지 초기화
     navigate('/'); // 홈 화면 이동
   } catch (error) {
     console.error('Login error:', error);
     setErrorMessage('Login failed. Please try again later.');
     message.error('Login failed. Try again later.');
+    removeUserInfo();
   }
 };
 
