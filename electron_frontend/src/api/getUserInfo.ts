@@ -14,8 +14,8 @@ export type userInfo = {
 
 export const getUserInfo = async () => {
   try {
-    const response = axiosInstance.get(apiServer + 'api/members');
-    console.log('response Data ' + response);
+    const response = await axiosInstance.get(apiServer + 'api/members');
+    console.log('response Data ' + response.data);
     return response;
   } catch (error) {
     throw Error('Failed to fetch user info');
