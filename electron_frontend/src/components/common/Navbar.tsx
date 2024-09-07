@@ -36,11 +36,11 @@ const Navbar = () => {
       key: 'image-to-image',
       onClick: () => navigateTo('/generation/image-to-image')
     },
-    {
-      label: 'Inpainting',
-      key: 'inpainting',
-      onClick: () => navigateTo('/generation/inpainting')
-    },
+    // {
+    //   label: 'Inpainting',
+    //   key: 'inpainting',
+    //   onClick: () => navigateTo('/generation/inpainting')
+    // },
     {
       label: 'Remove Background',
       key: 'remove-bg',

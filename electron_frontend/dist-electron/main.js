@@ -1,23 +1,25 @@
-import { app, BrowserWindow, Menu } from "electron";
-import { fileURLToPath } from "node:url";
-import path from "node:path";
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-process.env.APP_ROOT = path.join(__dirname, "..");
-const VITE_DEV_SERVER_URL = process.env["VITE_DEV_SERVER_URL"];
-const MAIN_DIST = path.join(process.env.APP_ROOT, "dist-electron");
-const RENDERER_DIST = path.join(process.env.APP_ROOT, "dist");
-process.env.VITE_PUBLIC = VITE_DEV_SERVER_URL ? path.join(process.env.APP_ROOT, "public") : RENDERER_DIST;
-let win;
-function createWindow() {
-  win = new BrowserWindow({
-    icon: path.join(process.env.VITE_PUBLIC, "electron-vite.svg"),
-    autoHideMenuBar: true,
+import { app as n, BrowserWindow as l, Menu as t } from "electron";
+import { fileURLToPath as m } from "node:url";
+import o from "node:path";
+const i = o.dirname(m(import.meta.url));
+process.env.APP_ROOT = o.join(i, "..");
+const r = process.env.VITE_DEV_SERVER_URL, _ = o.join(process.env.APP_ROOT, "dist-electron"), s = o.join(process.env.APP_ROOT, "dist");
+process.env.VITE_PUBLIC = r ? o.join(process.env.APP_ROOT, "public") : s;
+let e;
+function a() {
+  e = new l({
+    icon: o.join(process.env.VITE_PUBLIC, "electron-vite.svg"),
+    autoHideMenuBar: !0,
     // 메뉴 바 숨기기
     webPreferences: {
-      preload: path.join(__dirname, "preload.mjs")
+      preload: o.join(i, "preload.mjs"),
+      nodeIntegration: !1,
+      // Node.js 통합 비활성화
+      contextIsolation: !0
+      // 메인 프로세스와 렌더러 프로세스 격리
     }
   });
-  const menuTemplate = [
+  const c = [
     {
       label: "Edit",
       submenu: [
@@ -53,32 +55,20 @@ function createWindow() {
         }
       ]
     }
-  ];
-  const menu = Menu.buildFromTemplate(menuTemplate);
-  Menu.setApplicationMenu(menu);
-  win.webContents.on("did-finish-load", () => {
-    win == null ? void 0 : win.webContents.send("main-process-message", (/* @__PURE__ */ new Date()).toLocaleString());
-  });
-  if (VITE_DEV_SERVER_URL) {
-    win.loadURL(VITE_DEV_SERVER_URL);
-  } else {
-    win.loadFile(path.join(RENDERER_DIST, "index.html"));
-  }
+  ], d = t.buildFromTemplate(c);
+  t.setApplicationMenu(d), e.webContents.on("did-finish-load", () => {
+    e == null || e.webContents.send("main-process-message", (/* @__PURE__ */ new Date()).toLocaleString());
+  }), r ? e.loadURL(r) : e.loadFile(o.join(s, "index.html"));
 }
-app.on("window-all-closed", () => {
-  if (process.platform !== "darwin") {
-    app.quit();
-    win = null;
-  }
+n.on("window-all-closed", () => {
+  process.platform !== "darwin" && (n.quit(), e = null);
 });
-app.on("activate", () => {
-  if (BrowserWindow.getAllWindows().length === 0) {
-    createWindow();
-  }
+n.on("activate", () => {
+  l.getAllWindows().length === 0 && a();
 });
-app.whenReady().then(createWindow);
+n.whenReady().then(a);
 export {
-  MAIN_DIST,
-  RENDERER_DIST,
-  VITE_DEV_SERVER_URL
+  _ as MAIN_DIST,
+  s as RENDERER_DIST,
+  r as VITE_DEV_SERVER_URL
 };
