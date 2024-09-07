@@ -31,10 +31,10 @@ const MiniProfile = ({ nickname, department_name, email, member_pk }: miniProfil
           style={{ boxShadow: '0px 4px 4px 0 rgba(0,0,0,0.25)' }}
         />
 
-        <section>
-          <p className="absolute left-[114px] top-[10px] text-base text-left text-black">{nickname}</p>
-          <p className="absolute left-[49px] top-[35px] text-base text-left text-black">{department_name}</p>
-          <p className="absolute left-[99px] top-[55px] text-sm text-left text-[#47415e]">{email}</p>
+        <section className="flex flex-col items-center justify-center relative">
+          <p className="text-base text-left text-black">{nickname}</p>
+          <p className=" text-base text-left text-black">{department_name}</p>
+          <p className=" text-sm text-left text-[#47415e]">{email}</p>
           <div className="w-[94px] h-[37px] absolute left-[38px] top-[100px]">
             <button
               onClick={() => {
