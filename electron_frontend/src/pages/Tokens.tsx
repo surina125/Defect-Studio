@@ -1,20 +1,20 @@
-import TokenHeader from "../components/tokens/TokenHeader/TokenHeader";
-import { useMemo, useState } from "react";
-import TokenTabs from "../components/tokens/TokenTabs/TokenTabs";
-import { TabItemType } from "../components/tokens/TokenTabs/TokenTabs";
-import TokenIssurance from "../components/tokens/TokenIssurance/TokenIssurance";
-import TokenDistribution from "../components/tokens/TokenDistribution/TokenDistribution";
-import TokenStatistics from "../components/tokens/TokenStatistics/TokenStatistics";
+import TokenHeader from '../components/tokens/TokenHeader/TokenHeader';
+import { useMemo, useState } from 'react';
+import TokenTabs from '../components/tokens/TokenTabs/TokenTabs';
+import { TabItemType } from '../components/tokens/TokenTabs/TokenTabs';
+import TokenIssurance from '../components/tokens/TokenIssurance/TokenIssurance';
+import TokenDistribution from '../components/tokens/TokenDistribution/TokenDistribution';
+import TokenStatistics from '../components/tokens/TokenStatistics/TokenStatistics';
 
 const tabItems: TabItemType[] = [
-  { id: "TokenIssurance", name: "Token Issurance", value: 1 },
-  { id: "TokenDistribution", name: "Token Distribution", value: 2 },
-  { id: "TokenStatistics", name: "Token Statistics", value: 3 },
+  { id: 'TokenIssurance', name: 'Token Issurance', value: 1 },
+  { id: 'TokenDistribution', name: 'Token Distribution', value: 2 },
+  { id: 'TokenStatistics', name: 'Token Statistics', value: 3 }
 ];
 
 const Tokens = () => {
   // Tab Items
-  const [activeTab, setActiveTab] = useState<string | number>("");
+  const [activeTab, setActiveTab] = useState<string | number>('');
   const memorizedSetActiveTab = useMemo(() => setActiveTab, []);
   // //유저 정보 읽어오고 나서 권한 정보 읽어오기 -> 추후 수정
   // useEffect(() => {
@@ -27,11 +27,7 @@ const Tokens = () => {
         <TokenHeader />
         <hr className="border-[#E6E6E6] dark:border-gray-700" />
 
-        <TokenTabs
-          activeTab={activeTab}
-          setActiveTab={memorizedSetActiveTab}
-          tabItems={tabItems}
-        />
+        <TokenTabs activeTab={activeTab} setActiveTab={memorizedSetActiveTab} tabItems={tabItems} />
         <section>
           {activeTab === 1 && (
             <div>

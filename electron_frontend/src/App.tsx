@@ -6,7 +6,7 @@ import Home from './pages/Home';
 import Generation from './pages/Generation';
 import Training from './pages/Training';
 import Model from './pages/Model';
-import Settings from './pages/Settings';
+import Tokens from './pages/Tokens';
 import Docs from './pages/Docs';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
@@ -57,10 +57,10 @@ function AppContent() {
             }
           />
           <Route
-            path="/settings"
+            path="/tokens"
             element={
               <PrivateRoute>
-                <Settings />
+                <Tokens />
               </PrivateRoute>
             }
           />

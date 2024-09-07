@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 const MiniProfile = () => {
   const navigate = useNavigate();
@@ -7,7 +7,7 @@ const MiniProfile = () => {
       <div className="w-[300px] h-[400px] relative">
         <div
           className="w-[300px] h-[400px] absolute left-[-1px] top-[-1px] rounded-[10px] bg-white border border-[#e0e0e0]"
-          style={{ boxShadow: "0px 4px 4px 0 rgba(0,0,0,0.25)" }}
+          style={{ boxShadow: '0px 4px 4px 0 rgba(0,0,0,0.25)' }}
         />
         <svg
           width={141}
@@ -23,15 +23,9 @@ const MiniProfile = () => {
             fill="#C4C4C4"
           />
         </svg>
-        <p className="absolute left-[114px] top-[178px] text-base text-left text-black">
-          Nickname
-        </p>
-        <p className="absolute left-[49px] top-[200px] text-base text-left text-black">
-          Samsumg Electronic Co. DX
-        </p>
-        <p className="absolute left-[99px] top-[225px] text-sm text-left text-[#47415e]">
-          ssafy@ssafy.com
-        </p>
+        <p className="absolute left-[114px] top-[178px] text-base text-left text-black">Nickname</p>
+        <p className="absolute left-[49px] top-[200px] text-base text-left text-black">Samsumg Electronic Co. DX</p>
+        <p className="absolute left-[99px] top-[225px] text-sm text-left text-[#47415e]">ssafy@ssafy.com</p>
         <div className="w-[94px] h-[37px] absolute left-[38px] top-[346px]">
           <button className="btn w-[94px] h-[37px] absolute left-[-1px] top-[-1px] rounded-[10px] text-base bg-[#fd7272] hover:bg-[#f26a6a] text-white active:scale-95">
             Log Out
@@ -41,7 +35,7 @@ const MiniProfile = () => {
         <div className="w-[94px] h-[37px] absolute left-[171px] top-[346px]">
           <button
             onClick={() => {
-              navigate("/profile/test");
+              navigate('/profile/test');
             }}
             className="btn w-[94px] h-[37px] absolute left-[-1px] top-[-1px] rounded-[10px] text-base bg-[#8a2be2] hover:bg-[#8226d9] text-white active:scale-95"
           >

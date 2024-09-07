@@ -111,9 +111,9 @@ const Navbar = () => {
           <Button
             type="link"
             className="text-base text-black dark:text-gray-300 cursor-pointer"
-            onClick={() => navigateTo('/docs')}
+            onClick={() => navigateTo('/tokens')}
           >
-            Docs
+            Tokens
           </Button>
         </div>
       )}
