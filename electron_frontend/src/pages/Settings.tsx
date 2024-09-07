@@ -1,14 +1,11 @@
-import { useState } from "react";
-import { Input, Button, Form } from "antd";
-import {
-  showToastSuccess,
-  showToastError,
-} from "../components/common/ToastNotification";
-import ToastNotification from "../components/common/ToastNotification";
+import { useState } from 'react';
+import { Input, Button, Form } from 'antd';
+import { showToastSuccess, showToastError } from '../components/common/ToastNotification';
+import ToastNotification from '../components/common/ToastNotification';
 
 const Settings = () => {
-  const [imagePath, setImagePath] = useState<string>("");
-  const [modelPath, setModelPath] = useState<string>("");
+  const [imagePath, setImagePath] = useState<string>('');
+  const [modelPath, setModelPath] = useState<string>('');
 
   const handleSave = () => {
     // 둘 중 하나만 path입력해도 저장 가능
@@ -23,9 +20,7 @@ const Settings = () => {
   return (
     <div className="flex justify-center items-center h-[calc(100vh-60px)] bg-gray-100 p-4 overflow-hidden dark:bg-gray-800">
       <div className="w-full max-w-5xl bg-white py-10 px-12 rounded-[20px] mx-auto border border-gray-300 shadow-md h-full dark:bg-gray-600 dark:border-none">
-        <h1 className="text-[24px] font-semibold mb-6 text-gray-800 dark:text-gray-300">
-          Settings
-        </h1>
+        <h1 className="text-[24px] font-semibold mb-6 text-gray-800 dark:text-gray-300">Settings</h1>
         <Form layout="vertical" onFinish={handleSave}>
           <Form.Item
             label="Default Path for Generated Images"
@@ -33,8 +28,8 @@ const Settings = () => {
             rules={[
               {
                 required: false,
-                message: "Please input the path for generated images!",
-              },
+                message: 'Please input the path for generated images!'
+              }
             ]}
           >
             <Input
@@ -51,8 +46,8 @@ const Settings = () => {
             rules={[
               {
                 required: false,
-                message: "Please input the path for generated models!",
-              },
+                message: 'Please input the path for generated models!'
+              }
             ]}
           >
             <Input
@@ -64,11 +59,7 @@ const Settings = () => {
           </Form.Item>
 
           <Form.Item className="flex justify-end">
-            <Button
-              type="primary"
-              htmlType="submit"
-              className="w-[120px] text-[16px]"
-            >
+            <Button type="primary" htmlType="submit" className="w-[120px] text-[16px]">
               Save Settings
             </Button>
           </Form.Item>
