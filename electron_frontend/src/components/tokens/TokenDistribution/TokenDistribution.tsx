@@ -3,6 +3,7 @@ import { Select } from 'antd';
 import { AxiosError, AxiosResponse } from 'axios';
 import { getAllDepartments } from '../../../api/department';
 import SearchDepartmentPeople from './SearchDepartmentPeople';
+import { useState } from 'react';
 
 type departmentType = {
   department_id: number;
@@ -15,6 +16,8 @@ type SelectOptionType = {
 };
 
 const TokenDistribution = () => {
+  const [selectedDepartment, setSelectedDepartment] = useState<number | undefined>(undefined);
+  const [selectedDepartmentPeople, setSelectedDepartmentPeople] = useState<number[]>([]);
   const { data, isError, error, isLoading } = useQuery<
     AxiosResponse<departmentType[]>,
     AxiosError,
@@ -48,13 +51,25 @@ const TokenDistribution = () => {
             filterSort={(optionA, optionB) =>
               (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
             }
+            onChange={(value) => setSelectedDepartment(value)}
             options={[...data]}
           />
         )}
       </section>
-      <section className="flex flex-col">
-        <SearchDepartmentPeople departmentsId={1} />
-      </section>
+
+      {selectedDepartment && (
+        <section className="flex flex-col mt-4">
+          <SearchDepartmentPeople
+            departmentsId={selectedDepartment}
+            selectedDepartmentPeople={selectedDepartmentPeople}
+            setSelectedDepartmentPeople={setSelectedDepartmentPeople}
+          />
+        </section>
+      )}
+
+      {
+        //부서 사람 선택 후 분배 버튼
+      }
     </div>
   );
 };

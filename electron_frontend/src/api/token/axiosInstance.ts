@@ -36,9 +36,12 @@ const setAuthorizationToken = async () => {
       // Refresh 토큰이 만료됐을 경우
       if (error.response && error.response.status === 401) {
         console.log('Refresh token expired or invalid');
-
         // 로그아웃 처리 - 액세스 토큰 삭제
         localStorage.removeItem('accessToken');
+        // 현재 페이지가 로그인 페이지가 아닌 경우에만 리다이렉션
+        if (window.location.pathname !== '/login') {
+          window.location.href = '/login';
+        }
       }
     } else {
       // 다른 에러일 경우

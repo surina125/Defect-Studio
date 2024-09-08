@@ -5,10 +5,20 @@ import { DepartmentPersonType } from '../../../api/department'; // 요청 성공
 import { getDepartmentPeople } from '../../../api/department'; // 요청 함수
 import { ConfigProvider, theme } from 'antd'; //다크모드
 import { useSelector } from 'react-redux';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { TableRowSelection } from 'antd/es/table/interface';
 
 type PropsType = {
   departmentsId: number;
+  selectedDepartmentPeople?: number[];
+  setSelectedDepartmentPeople: React.Dispatch<React.SetStateAction<number[]>>;
+};
+
+type RowSelectionType = {
+  key: number;
+  name: string;
+  nickname: string;
+  token_quantity: number;
 };
 
 const columns = [
@@ -29,14 +39,7 @@ const columns = [
   }
 ];
 
-const rowSelection = {
-  type: 'checkbox',
-  onChange: (selectedRowKeys: number[], selectedRows: DepartmentPersonType[]) => {
-    console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-  }
-};
-
-const SearchDepartmentPeople = ({ departmentsId }: PropsType) => {
+const SearchDepartmentPeople = ({ departmentsId, setSelectedDepartmentPeople }: PropsType) => {
   //부서 불러오기
   //컴포넌트 출력
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
@@ -44,14 +47,39 @@ const SearchDepartmentPeople = ({ departmentsId }: PropsType) => {
   const { data, isPending, isError, error } = useQuery<
     AxiosResponse<DepartmentPersonType[]>,
     AxiosError,
-    DepartmentPersonType[],
+    RowSelectionType[],
     (string | number)[]
   >({
     queryKey: ['department_people', departmentsId],
     queryFn: () => getDepartmentPeople(departmentsId),
-    select: (data) => data.data
+    select: (data) =>
+      data.data.map((item) => ({
+        key: item.member_id,
+        name: item.name,
+        nickname: item.nickname,
+        token_quantity: item.token_quantity
+      }))
   });
+
+  useEffect(() => {
+    console.log('data', data);
+  }, [data]);
   const setThemeMode = useSelector((state) => state.theme.mode);
+
+  const rowSelection: TableRowSelection<RowSelectionType> = {
+    type: 'checkbox',
+    selectedRowKeys,
+    onChange: (NewselectedRowKeys: React.Key[], selectedRows: RowSelectionType[]) => {
+      console.log(`selectedRowKeys: ${NewselectedRowKeys}`, 'selectedRows: ', selectedRows);
+      setSelectedRowKeys(NewselectedRowKeys);
+      setSelectedDepartmentPeople(selectedRows.map((row) => row.key));
+    },
+    getCheckboxProps: (record: RowSelectionType) => ({
+      disabled: record.name === 'Disabled User', // Column configuration not to be checked
+      name: record.name
+    })
+  };
+
   return (
     <section className="token-issurance-department-container">
       <div>
