@@ -53,7 +53,6 @@ const TokenDistribution = () => {
         )}
       </section>
       <section className="flex flex-col">
-        <p>Please choose the people to whom the tokens will be distributed.</p>
         <SearchDepartmentPeople departmentsId={1} />
       </section>
     </div>

@@ -19,7 +19,7 @@ export type DepartmentPersonType = {
   name: string;
   nickname: string;
   token_quantity: number;
-  member_id: number;
+  member_pk: number;
 };
 
 export const getDepartmentPeople = async (departmentId: number) => {
