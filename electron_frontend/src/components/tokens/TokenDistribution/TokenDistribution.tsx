@@ -4,6 +4,7 @@ import { AxiosError, AxiosResponse } from 'axios';
 import { getAllDepartments } from '../../../api/department';
 import SearchDepartmentPeople from './SearchDepartmentPeople';
 import { useState } from 'react';
+import { getDepartmentTokenUsage } from '../../../api/token';
 
 type departmentType = {
   department_id: number;
@@ -14,7 +15,7 @@ type SelectOptionType = {
   value: number;
   label: string;
 };
-
+getDepartmentTokenUsage();
 const TokenDistribution = () => {
   const [selectedDepartment, setSelectedDepartment] = useState<number | undefined>(undefined);
   const [selectedDepartmentPeople, setSelectedDepartmentPeople] = useState<number[]>([]);

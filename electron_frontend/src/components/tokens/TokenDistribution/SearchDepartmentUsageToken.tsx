@@ -5,9 +5,9 @@ import { DepartmentPersonType } from '../../../api/department'; // 요청 성공
 import { getDepartmentPeople } from '../../../api/department'; // 요청 함수
 import { ConfigProvider, theme } from 'antd'; //다크모드
 import { useSelector } from 'react-redux';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { TableRowSelection } from 'antd/es/table/interface';
-import { RootState } from './../../../store/store';
+import { RootState } from '../../../store/store';
 
 type PropsType = {
   departmentsId: number;
@@ -40,7 +40,7 @@ const columns = [
   }
 ];
 
-const SearchDepartmentUsageToken = ({ departmentsId, setSelectedDepartmentPeople }: PropsType) => {
+const SearchDepartmentPeople = ({ departmentsId, setSelectedDepartmentPeople }: PropsType) => {
   //부서 불러오기
   //컴포넌트 출력
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
@@ -62,6 +62,9 @@ const SearchDepartmentUsageToken = ({ departmentsId, setSelectedDepartmentPeople
       }))
   });
 
+  useEffect(() => {
+    console.log('data', data);
+  }, [data]);
   const setThemeMode = useSelector((state: RootState) => state.theme.mode);
 
   const rowSelection: TableRowSelection<RowSelectionType> = {
@@ -106,4 +109,4 @@ const SearchDepartmentUsageToken = ({ departmentsId, setSelectedDepartmentPeople
   );
 };
 
-export default SearchDepartmentUsageToken;
+export default SearchDepartmentPeople;
