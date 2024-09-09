@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { signUpFormType } from '../types/user';
 import noAuthAxios from './token/axiosInstance';
 
