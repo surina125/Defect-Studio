@@ -1,4 +1,3 @@
-import { AxiosResponse } from 'axios';
 import axiosInstance from './token/axiosInstance';
 
 type TokenReadType = {
@@ -9,12 +8,6 @@ type TokenReadType = {
   remaining_quantity: number;
   is_active: boolean;
   department_id: number;
-};
-
-type ResponseType = {
-  department_id: number;
-  department_name: string;
-  tokens: TokenReadType[];
 };
 
 export const getDepartmentTokenUsage = async (departmentId?: number) => {

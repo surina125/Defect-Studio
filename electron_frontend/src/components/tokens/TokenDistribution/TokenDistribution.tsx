@@ -5,6 +5,7 @@ import { getAllDepartments } from '../../../api/department';
 import SearchDepartmentPeople from './SearchDepartmentPeople';
 import { useState } from 'react';
 import { getDepartmentTokenUsage } from '../../../api/token';
+import SearchDepartmentUsageToken from './SearchDepartmentUsageToken';
 
 type departmentType = {
   department_id: number;
@@ -70,6 +71,7 @@ const TokenDistribution = () => {
 
       {
         //부서 사람 선택 후 분배 버튼
+        selectedDepartment && selectedDepartmentPeople.length > 0 && <SearchDepartmentUsageToken />
       }
     </div>
   );
