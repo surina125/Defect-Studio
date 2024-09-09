@@ -1,6 +1,25 @@
 import axiosInstance from './token/axiosInstance';
 
-type TokenReadType = {
+export interface TokenIssueRequestType {
+  end_date: string;
+  quantity: number;
+  department_ids: number[];
+}
+
+export const createTokenIssue = async (data: TokenIssueRequestType) => {
+  try {
+    const response = await axiosInstance.post('/admin/tokens', data, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    return response;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export interface TokenReadType {
   token_id: number;
   start_date: string;
   end_date: string;
@@ -8,7 +27,7 @@ type TokenReadType = {
   remaining_quantity: number;
   is_active: boolean;
   department_id: number;
-};
+}
 
 export const getDepartmentTokenUsage = async (departmentId?: number) => {
   if (departmentId === undefined) {
