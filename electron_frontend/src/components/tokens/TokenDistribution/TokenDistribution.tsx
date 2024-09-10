@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { getDepartmentTokenUsage } from '../../../api/token';
 import SearchDepartmentUsageToken from './SearchDepartmentUsageToken';
 import TokenDistributionInput from './TokenDistributionInput';
+import { TableTokenUsageType } from './SearchDepartmentUsageToken';
 
 type departmentType = {
   department_id: number;
@@ -21,7 +22,7 @@ getDepartmentTokenUsage();
 const TokenDistribution = () => {
   const [selectedDepartment, setSelectedDepartment] = useState<number | undefined>(undefined); // 부서 선택
   const [selectedDepartmentPeople, setSelectedDepartmentPeople] = useState<number[]>([]); // 분배받은 사람들 선택
-  const [selectedDepartmentTokenUsage, setSelectedDepartmentTokenUsage] = useState<number>(-1); // 부서 토큰 선택
+  const [selectedDepartmentTokenUsage, setSelectedDepartmentTokenUsage] = useState<TableTokenUsageType[]>([]); // 부서 토큰 선택
   const { data, isError, error, isLoading } = useQuery<
     AxiosResponse<departmentType[]>,
     AxiosError,
@@ -82,10 +83,10 @@ const TokenDistribution = () => {
           />
         )
       }
-      {selectedDepartment && selectedDepartmentPeople.length > 0 && selectedDepartmentTokenUsage > 0 && (
+      {selectedDepartment && selectedDepartmentPeople.length > 0 && selectedDepartmentTokenUsage.length > 0 && (
         <TokenDistributionInput
           selectedPeopleNumber={selectedDepartmentPeople.length}
-          maxToken={selectedDepartmentTokenUsage}
+          selectedTokenUsage={selectedDepartmentTokenUsage[0]}
         />
       )}
     </div>

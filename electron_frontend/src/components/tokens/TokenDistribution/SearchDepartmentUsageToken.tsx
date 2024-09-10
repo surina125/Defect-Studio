@@ -10,12 +10,12 @@ import { TableRowSelection } from 'antd/es/table/interface';
 
 interface PropsDataType {
   departmentsId: number;
-  selectedDepartmentTokenUsage: number;
-  setSelectedDepartmentTokenUsage: React.Dispatch<React.SetStateAction<number>>;
+  selectedDepartmentTokenUsage: TableTokenUsageType[];
+  setSelectedDepartmentTokenUsage: React.Dispatch<React.SetStateAction<TableTokenUsageType[]>>;
 }
 
 //테이블에 사용할 것
-interface TableTokenUsageType {
+export interface TableTokenUsageType {
   key: number; // string | number | symbol;
   startDate: string;
   endDate: string;
@@ -69,9 +69,9 @@ const SearchDepartmentUsageToken = ({ departmentsId, setSelectedDepartmentTokenU
   const rowSelection: TableRowSelection<TableTokenUsageType> = {
     type: 'radio',
     selectedRowKeys,
-    onChange: (selectedRowKeys) => {
+    onChange: (selectedRowKeys, selectedRows) => {
       setSelectedRowKeys(selectedRowKeys);
-      setSelectedDepartmentTokenUsage(selectedRowKeys[0] as number);
+      setSelectedDepartmentTokenUsage(selectedRows);
     },
     getCheckboxProps: (record: TableTokenUsageType) => ({
       disabled: new Date(record.endDate) < new Date()
