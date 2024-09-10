@@ -1,5 +1,4 @@
-import axios, { AxiosResponse } from 'axios';
-import { AxiosInstance } from 'axios';
+import axios from 'axios';
 import axiosInstance from './token/axiosInstance';
 type departmentType = {
   department_id: number;
@@ -27,9 +26,6 @@ export const getDepartmentPeople = async (departmentId: number) => {
     const response = await axiosInstance.get(`/departments/${departmentId}/members`);
     return response;
   } catch (error) {
-    if (error.status === 401) {
-      throw new Error('Not Authorized');
-    }
     throw new Error('Unexpected error occurred');
   }
 };
