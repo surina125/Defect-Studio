@@ -4,11 +4,11 @@ import { signupHTTP } from '../api/signupHTTP';
 import { useNavigate } from 'react-router-dom';
 
 const initialValues: signUpFormType = {
-  login_id: 'defaultLoginID',
+  login_id: '',
   password: '',
-  name: 'defaultName',
-  nickname: 'defaultNickname',
-  email: 'default@example.com',
+  name: '',
+  nickname: '',
+  email: '',
   role: 'department_member',
   department_id: 0
 };
@@ -29,7 +29,7 @@ const Signup = () => {
 
   const [form] = Form.useForm();
   return (
-    <div className="w-full h-full min-h-[1024px] relative overflow-hidden bg-white">
+    <div className="w-full h-full min-h-[1024px] relative overflow-hidden bg-white dark:bg-gray-800">
       <p className="absolute left-1/2 top-8 transform -translate-x-1/2 text-2xl sm:text-3xl font-black text-center text-black">
         Welcome to Defect Studio
       </p>
