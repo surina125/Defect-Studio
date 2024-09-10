@@ -3,6 +3,8 @@ import TokenIssueInput from './TokenIssueInput';
 import { convertDateToString } from '../../../util/covertDateToString';
 import { useState } from 'react';
 import { createTokenIssue, TokenIssueRequestType } from '../../../api/token';
+import { message } from 'antd';
+import { useMutation } from '@tanstack/react-query';
 
 const readyReqeusetToekn = (endDate: string, quantity: number, departmentsId: number[]): TokenIssueRequestType => {
   return {
@@ -24,6 +26,15 @@ const TokenIssurance = () => {
   const [endDate, setEndDate] = useState<string>(convertDateToString(new Date()));
   const [quantity, setQuantity] = useState<number>(0);
   const [departmentsId, setDepartmentsId] = useState<number[]>([]);
+  const { mutate, isLoading, isError, error } = useMutation({
+    mutationFn: createTokenIssue,
+    onSuccess: () => {
+      message.success('Token issuance was successful.');
+    },
+    onError: () => {
+      alert('Token issuance failed.');
+    }
+  });
   return (
     <section className="flex flex-col justify-center align-middle">
       <SearchDepartments departmentsId={departmentsId} setDepartmentsId={setDepartmentsId} />
@@ -35,11 +46,11 @@ const TokenIssurance = () => {
           <button
             className="text-black dark:text-white px-4 py-2 rounded-md hover:scale-105 transition-transform duration-200 active:scale-95"
             onClick={() => {
-              console.log(readyReqeusetToekn(endDate, quantity, departmentsId));
-              createTokenIssue(readyReqeusetToekn(endDate, quantity, departmentsId));
+              mutate(readyReqeusetToekn(endDate, quantity, departmentsId));
             }}
+            disabled={isLoading}
           >
-            발행하기
+            {isLoading ? 'Loading...' : 'Issue Token'}
           </button>
         </div>
       ) : null}

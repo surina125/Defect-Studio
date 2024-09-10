@@ -8,11 +8,7 @@ export interface TokenIssueRequestType {
 
 export const createTokenIssue = async (data: TokenIssueRequestType) => {
   try {
-    const response = await axiosInstance.post('/admin/tokens', data, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
+    const response = await axiosInstance.post('/admin/tokens', data);
     return response;
   } catch (error) {
     console.error(error);
