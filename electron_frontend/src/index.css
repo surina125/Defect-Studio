@@ -188,3 +188,12 @@ html.dark .ant-table {
 html.dark .ant-table-tbody .ant-table-row .ant-table-cell-row-hover {
   @apply bg-gray-700;
 }
+
+/* 토큰 페이지 - 컨텐트 설정 */
+.token-content {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+
+  @apply border-2 border-gray-300 rounded-lg w-full h-full text-[222222] dark:text-white font-samsung;
+}

@@ -79,7 +79,7 @@ const SearchDepartmentUsageToken = ({ departmentsId, setSelectedDepartmentPeople
   };
 
   return (
-    <section className="token-issurance-department-container">
+    <section className="token-content">
       <div>
         <p className="text-[20px] font-bold">Please choose the people to whom the tokens will be distributed.</p>
       </div>
