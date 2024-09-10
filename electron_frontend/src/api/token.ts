@@ -1,3 +1,4 @@
+import { AxiosError, AxiosResponse } from 'axios';
 import axiosInstance from './token/axiosInstance';
 
 export interface TokenIssueRequestType {
@@ -19,18 +20,30 @@ export interface TokenReadType {
   token_id: number;
   start_date: string;
   end_date: string;
-  original_quantity: number;
-  remaining_quantity: number;
+  origin_quantity: number;
+  remain_quantity: number;
   is_active: boolean;
   department_id: number;
 }
 
-export const getDepartmentTokenUsage = async (departmentId?: number) => {
-  if (departmentId === undefined) {
-    const response = await axiosInstance.get('/admin/tokens');
-    console.log(response.data);
-  } else {
-    const response = await axiosInstance.get(`/admin/tokens/${departmentId}?department_id=${departmentId}`);
-    console.log(response.data);
+export interface TokenReadResponseType {
+  department_id: number;
+  department_name: string;
+  tokens: TokenReadType[];
+}
+
+export const getDepartmentTokenUsage = async (
+  departmentId?: number
+): Promise<AxiosResponse<TokenReadResponseType[]>> => {
+  try {
+    if (departmentId === undefined) {
+      const response = await axiosInstance.get('/admin/tokens');
+      return response;
+    } else {
+      const response = await axiosInstance.get(`/admin/tokens?department_id=${departmentId}`);
+      return response;
+    }
+  } catch (error) {
+    throw new AxiosError('Error');
   }
 };

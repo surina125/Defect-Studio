@@ -26,7 +26,7 @@ const TokenIssurance = () => {
   const [endDate, setEndDate] = useState<string>(convertDateToString(new Date()));
   const [quantity, setQuantity] = useState<number>(0);
   const [departmentsId, setDepartmentsId] = useState<number[]>([]);
-  const { mutate, isLoading, isError, error } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: createTokenIssue,
     onSuccess: () => {
       message.success('Token issuance was successful.');
@@ -48,9 +48,9 @@ const TokenIssurance = () => {
             onClick={() => {
               mutate(readyReqeusetToekn(endDate, quantity, departmentsId));
             }}
-            disabled={isLoading}
+            disabled={isPending}
           >
-            {isLoading ? 'Loading...' : 'Issue Token'}
+            {isPending ? 'Loading...' : 'Issue Token'}
           </button>
         </div>
       ) : null}

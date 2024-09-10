@@ -18,8 +18,9 @@ type SelectOptionType = {
 };
 getDepartmentTokenUsage();
 const TokenDistribution = () => {
-  const [selectedDepartment, setSelectedDepartment] = useState<number | undefined>(undefined);
-  const [selectedDepartmentPeople, setSelectedDepartmentPeople] = useState<number[]>([]);
+  const [selectedDepartment, setSelectedDepartment] = useState<number | undefined>(undefined); // 부서 선택
+  const [selectedDepartmentPeople, setSelectedDepartmentPeople] = useState<number[]>([]); // 분배받은 사람들 선택
+  const [selectedDepartmentTokenUsage, setSelectedDepartmentTokenUsage] = useState<number>(-1); // 부서 토큰 선택
   const { data, isError, error, isLoading } = useQuery<
     AxiosResponse<departmentType[]>,
     AxiosError,
@@ -59,6 +60,7 @@ const TokenDistribution = () => {
         )}
       </section>
 
+      {/* 해당 인원 선택 */}
       {selectedDepartment && (
         <section className="flex flex-col mt-4">
           <SearchDepartmentPeople
@@ -71,7 +73,13 @@ const TokenDistribution = () => {
 
       {
         //부서 사람 선택 후 분배 버튼
-        selectedDepartment && selectedDepartmentPeople.length > 0 && <SearchDepartmentUsageToken />
+        selectedDepartment && selectedDepartmentPeople.length > 0 && (
+          <SearchDepartmentUsageToken
+            departmentsId={selectedDepartment}
+            selectedDepartmentTokenUsage={selectedDepartmentTokenUsage}
+            setSelectedDepartmentTokenUsage={setSelectedDepartmentTokenUsage}
+          />
+        )
       }
     </div>
   );

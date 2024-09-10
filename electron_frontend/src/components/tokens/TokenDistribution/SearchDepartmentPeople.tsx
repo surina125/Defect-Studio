@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { Table } from 'antd'; // 테이블
+import { Button, Table } from 'antd'; // 테이블
 import { AxiosError, AxiosResponse } from 'axios'; // Axios요청타입
 import { DepartmentPersonType } from '../../../api/department'; // 요청 성공시 받아오는 데이터 타입
 import { getDepartmentPeople } from '../../../api/department'; // 요청 함수
@@ -88,18 +88,45 @@ const SearchDepartmentUsageToken = ({ departmentsId, setSelectedDepartmentPeople
         {isPending && <p>Loading...</p>}
         {isError && <p>{error.message}</p>}
         {data && (
-          <ConfigProvider
-            theme={{
-              algorithm: setThemeMode === 'dark' ? darkAlgorithm : defaultAlgorithm
-            }}
-          >
-            <Table
-              className={setThemeMode === 'dark' ? 'dark-table' : 'light-table'}
-              columns={columns}
-              dataSource={data}
-              rowSelection={rowSelection}
-            />
-          </ConfigProvider>
+          <div>
+            <ConfigProvider
+              theme={{
+                algorithm: setThemeMode === 'dark' ? darkAlgorithm : defaultAlgorithm
+              }}
+            >
+              <Table
+                className={setThemeMode === 'dark' ? 'dark-table' : 'light-table'}
+                columns={columns}
+                dataSource={data}
+                rowSelection={rowSelection}
+                pagination={{
+                  defaultPageSize: 5,
+                  showSizeChanger: true,
+                  pageSizeOptions: ['5', '10', '15', '20']
+                }}
+              />
+            </ConfigProvider>
+
+            <div>
+              <Button
+                onClick={() => {
+                  setSelectedDepartmentPeople(data.map((row) => row.key));
+                  setSelectedRowKeys(data.map((row) => row.key));
+                }}
+              >
+                Select All
+              </Button>
+
+              <Button
+                onClick={() => {
+                  setSelectedDepartmentPeople([]);
+                  setSelectedRowKeys([]);
+                }}
+              >
+                UnselectAll
+              </Button>
+            </div>
+          </div>
         )}
       </div>
     </section>
