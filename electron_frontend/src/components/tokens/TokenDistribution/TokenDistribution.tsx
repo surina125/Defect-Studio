@@ -1,4 +1,4 @@
-import { useMutation, useQuery, QueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Select, message } from 'antd';
 import { AxiosError, AxiosResponse } from 'axios';
 import { getAllDepartments } from '../../../api/department';
@@ -21,7 +21,7 @@ type SelectOptionType = {
 };
 getDepartmentTokenUsage();
 const TokenDistribution = () => {
-  const queryClient = new QueryClient();
+  const queryClient = useQueryClient();
 
   const [selectedDepartment, setSelectedDepartment] = useState<number | undefined>(undefined); // 부서 선택
   const [selectedDepartmentPeople, setSelectedDepartmentPeople] = useState<number[]>([]); // 분배받은 사람들 선택
