@@ -47,3 +47,25 @@ export const getDepartmentTokenUsage = async (
     throw new AxiosError('Error');
   }
 };
+
+export interface TokenDistributeRequestType {
+  quantity: number;
+  member_ids: number[];
+}
+
+interface distributeTokenRequestType {
+  token_id: number;
+  data: TokenDistributeRequestType;
+}
+
+export const distributeTokenRequest = async ({
+  token_id,
+  data
+}: distributeTokenRequestType): Promise<AxiosResponse<string>> => {
+  try {
+    const response = await axiosInstance.post(`/admin/tokens/${token_id}`, data);
+    return response;
+  } catch (error) {
+    throw new AxiosError('Error');
+  }
+};
