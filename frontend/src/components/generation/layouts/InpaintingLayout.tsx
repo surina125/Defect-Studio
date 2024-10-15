@@ -14,6 +14,7 @@ import { useEffect, useCallback } from 'react';
 import OutputToolbar from '../outputTool/OutputToolbar';
 import { useInpaintingOutputs } from '../../../hooks/generation/outputs/useInpaintingOutputs';
 import { useClipOutputs } from '../../../hooks/generation/outputs/useClipOutputs';
+import { upDateMyInfo } from '@/api/user';
 
 const InpaintingLayout = () => {
   const dispatch = useDispatch();
@@ -141,7 +142,6 @@ const InpaintingLayout = () => {
           const newClipId = await getClip(clipData);
           dispatch(setIsLoading({ tab: 'clip', value: true }));
           dispatch(setTaskId({ tab: 'clip', value: newClipId }));
-          console.log('clip 갱신: ', newClipId);
         } else {
           console.error('No image available for clip generation');
         }
@@ -161,7 +161,6 @@ const InpaintingLayout = () => {
     let intervalId: NodeJS.Timeout | undefined;
 
     const fetchTaskStatus = async () => {
-      console.log(clipIsLoading, clipTaskId);
       if (clipIsLoading && clipTaskId) {
         try {
           const response = await getTaskStatus(clipTaskId);
@@ -171,6 +170,7 @@ const InpaintingLayout = () => {
 
             dispatch(setIsLoading({ tab: 'clip', value: false }));
             dispatch(setTaskId({ tab: 'clip', value: null }));
+            upDateMyInfo();
           }
         } catch (error) {
           console.error('Failed to get task status:', error);

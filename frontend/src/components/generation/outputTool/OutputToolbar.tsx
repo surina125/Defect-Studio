@@ -14,7 +14,7 @@ import {
   setIsSidebarVisible
 } from '../../../store/slices/generation/outputSlice';
 import { RootState } from '../../../store/store';
-import { setImageList as txtSetImageList } from '../../../store/slices/generation/img2ImgSlice';
+import { setImageList as img2ImgSetImageList } from '../../../store/slices/generation/img2ImgSlice';
 import { setInitImageList as inpaintingSetImageList } from '../../../store/slices/generation/inpaintingSlice';
 import { setImageList as removeSetImageList } from '../../../store/slices/generation/removeBgSlice';
 import { setInitImageList as cleanupSetImageList } from '../../../store/slices/generation/cleanupSlice';
@@ -78,27 +78,59 @@ const OutputToolbar = ({ type }: OutputToolbarProps) => {
     }
   };
 
-  const handleTabSelect = (tab: string, route: string) => {
-    switch (tab) {
-      case 'txt2Img':
-        dispatch(txtSetImageList(selectedImgs));
-        break;
-      case 'inpainting':
-        dispatch(inpaintingSetImageList(selectedImgs));
-        break;
-      case 'removeBg':
-        dispatch(removeSetImageList(selectedImgs));
-        break;
-      case 'cleanup':
-        dispatch(cleanupSetImageList(selectedImgs));
-        break;
-      default:
-        message.error('Invalid type selected');
-        return;
-    }
+  const convertUrlToBase64 = async (url: string): Promise<string> => {
+    const response = await fetch(url);
+    const blob = await response.blob();
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        // result가 string 타입인지 확인
+        if (typeof reader.result === 'string') {
+          resolve(reader.result); // Base64 문자열 반환
+        } else {
+          reject(new Error('Failed to convert Blob to Base64 string'));
+        }
+      };
+      reader.onerror = () => {
+        reject(new Error('Error reading the Blob data'));
+      };
+      reader.readAsDataURL(blob); // Blob을 Base64로 변환
+    });
+  };
 
-    goToPage(route);
-    setIsModalVisible(false);
+  const handleTabSelect = async (tab: string, route: string) => {
+    try {
+      const selectedImgsBase64: string[] = await Promise.all(
+        selectedImgs.map(async (imgUrl: string): Promise<string> => {
+          const base64String: string = await convertUrlToBase64(imgUrl);
+          return base64String;
+        })
+      );
+
+      // 각 탭에 맞는 dispatch 호출
+      switch (tab) {
+        case 'img2Img':
+          dispatch(img2ImgSetImageList(selectedImgsBase64));
+          break;
+        case 'inpainting':
+          dispatch(inpaintingSetImageList(selectedImgsBase64));
+          break;
+        case 'removeBg':
+          dispatch(removeSetImageList(selectedImgsBase64));
+          break;
+        case 'cleanup':
+          dispatch(cleanupSetImageList(selectedImgsBase64));
+          break;
+        default:
+          message.error('Invalid type selected');
+          return;
+      }
+
+      goToPage(route);
+      setIsModalVisible(false);
+    } catch (error) {
+      message.error(`Error converting images: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    }
   };
 
   const handleCancel = () => {
@@ -214,7 +246,7 @@ const OutputToolbar = ({ type }: OutputToolbarProps) => {
         <div className="text-[20px] mb-[20px] font-semibold dark:text-gray-300">Select a tab to navigate</div>
         <div className="flex flex-col gap-4 my-10">
           <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-4">
-            <Button onClick={() => handleTabSelect('txt2Img', '/generation/image-to-image')}>Img2Img</Button>
+            <Button onClick={() => handleTabSelect('img2Img', '/generation/image-to-image')}>Img2Img</Button>
             <Button onClick={() => handleTabSelect('inpainting', '/generation/inpainting')}>Inpainting</Button>
             <Button onClick={() => handleTabSelect('removeBg', '/generation/remove-background')}>
               Remove Background

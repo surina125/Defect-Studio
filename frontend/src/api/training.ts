@@ -39,9 +39,7 @@ export const postTraining = async (gpu_env: TrainingDataType['gpu_env'], data: T
 export const getTrainingStatus = async (task_id: string) => {
   try {
     const response = await axiosInstance.get(`/training/tasks/${task_id}`);
-
     if (response.status === 200) {
-      console.log('2단계', task_id, response.data);
       return response.data;
     } else {
       throw new Error('Failed to get training-status');

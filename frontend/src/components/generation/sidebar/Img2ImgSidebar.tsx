@@ -16,7 +16,7 @@ import { RootState } from '../../../store/store';
 import { useDispatch } from 'react-redux';
 import { MdMemory } from 'react-icons/md';
 import { resetParams, setGpuNum } from '../../../store/slices/generation/img2ImgSlice';
-import { Modal, InputNumber, Tooltip } from 'antd';
+import { Modal, InputNumber, Tooltip, message } from 'antd';
 
 const Img2ImgSidebar = () => {
   const dispatch = useDispatch();
@@ -63,7 +63,11 @@ const Img2ImgSidebar = () => {
       img.onload = () => {
         // 이미지 크기 제한 (2024x2024 이하)
         if (img.width > 2024 || img.height > 2024) {
-          alert('The image is too large. Please upload an image with a size less than or equal to 2024x2024.');
+          window.electron.showMessageBox({
+            type: 'warning',
+            title: 'Image Size Warning',
+            message: 'The image is too large. Please upload an image with a size less than or equal to 2024x2024.'
+          });
           return;
         }
         updateClipData([]);
@@ -71,12 +75,16 @@ const Img2ImgSidebar = () => {
       };
 
       img.onerror = () => {
-        alert('Failed to load the image. Please try again.');
+        window.electron.showMessageBox({
+          type: 'warning',
+          title: 'Image Size Warning',
+          message: 'The image is too large. Please upload an image with a size less than or equal to 2024x2024.'
+        });
       };
       img.src = base64String;
     };
     reader.onerror = () => {
-      alert('Failed to read the file. Please try again.');
+      message.error('Failed to read the file. Please try again.');
     };
     reader.readAsDataURL(file);
   };
@@ -130,7 +138,7 @@ const Img2ImgSidebar = () => {
     <div className="w-full h-full mr-6">
       <div className="relative w-full h-full overflow-y-auto custom-scrollbar rounded-[15px] bg-white shadow-lg border border-gray-300 dark:bg-gray-600 dark:border-none">
         {level === 'Advanced' && (
-          <div className="absolute top-6 right-0 mr-6">
+          <div className="absolute top-[24px] right-0 mr-[45px]">
             <div className="flex">
               <Tooltip title="Reset Parameters">
                 <UndoOutlined
@@ -152,16 +160,19 @@ const Img2ImgSidebar = () => {
                   className="mr-[16px] text-[18px] text-[#222] hover:text-blue-500 dark:text-gray-300 dark:hover:text-white cursor-pointer transition-transform transform hover:scale-110"
                 />
               </Tooltip>
-
-              <Tooltip title="Enter GPU Number">
-                <MdMemory
-                  className="text-[22px] text-[#222] hover:text-blue-500 dark:text-gray-300 dark:hover:text-white cursor-pointer transition-transform transform hover:scale-110"
-                  onClick={showGpuModal}
-                />
-              </Tooltip>
             </div>
           </div>
         )}
+
+        {/* GPU 버튼은 항상 표시 */}
+        <div className="absolute top-[22px] right-0 mr-6">
+          <Tooltip title="Enter GPU Number">
+            <MdMemory
+              className="text-[22px] text-[#222] hover:text-blue-500 dark:text-gray-300 dark:hover:text-white cursor-pointer transition-transform transform hover:scale-110"
+              onClick={showGpuModal}
+            />
+          </Tooltip>
+        </div>
 
         {/* 모델 */}
         <ModelParam modelParams={modelParams} updateModelParams={updateModelParams} />

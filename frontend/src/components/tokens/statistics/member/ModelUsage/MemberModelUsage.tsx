@@ -3,7 +3,6 @@ import { AxiosResponse } from 'axios'; // Axios Response Type
 import { getModelFrequency } from '@api/statistic_person'; // API
 import { ModelFrequency } from '@/types/statistics'; // Response Type
 import MemberModelUsageGraph from './MemberModelUsageGraph';
-import { staleTime, gcTime } from '../../common/constance';
 
 interface MemberModelUsageProps {
   member_id: number;
@@ -19,11 +18,11 @@ const MemberModelUsage = ({ member_id }: MemberModelUsageProps) => {
     queryKey: ['ModelUsage', 'person', member_id],
     queryFn: () => getModelFrequency(member_id),
     select: (response) =>
-      response.data.filter((item) => {
-        return !!item.model && item.model.length > 0 && item.usage > 0;
-      }),
-    staleTime,
-    gcTime
+      response.data
+        .filter((item, index) => {
+          return !!item.model && item.model.length > 0 && item.usage > 0 && index < 10;
+        })
+        .sort((a, b) => b.usage - a.usage)
   });
   return (
     <div className="flex flex-col text-black dark:text-white">
