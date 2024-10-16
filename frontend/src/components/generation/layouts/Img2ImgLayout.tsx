@@ -14,6 +14,7 @@ import OutputToolbar from '../outputTool/OutputToolbar';
 import { useImg2ImgOutputs } from '../../../hooks/generation/outputs/useImg2ImgOutputs';
 import { useEffect, useCallback } from 'react';
 import { useClipOutputs } from '@/hooks/generation/outputs/useClipOutputs';
+import { upDateMyInfo } from '@/api/user';
 
 const Img2ImgLayout = () => {
   const dispatch = useDispatch();
@@ -124,7 +125,6 @@ const Img2ImgLayout = () => {
           const newClipId = await getClip(clipData);
           dispatch(setIsLoading({ tab: 'clip', value: true }));
           dispatch(setTaskId({ tab: 'clip', value: newClipId }));
-          console.log('clip 갱신: ', newClipId);
         } else {
           console.error('No image available for clip generation');
         }
@@ -139,7 +139,6 @@ const Img2ImgLayout = () => {
     let intervalId: NodeJS.Timeout | undefined;
 
     const fetchTaskStatus = async () => {
-      console.log(clipIsLoading, clipTaskId);
       if (clipIsLoading && clipTaskId) {
         try {
           const response = await getTaskStatus(clipTaskId);
@@ -149,6 +148,7 @@ const Img2ImgLayout = () => {
 
             dispatch(setIsLoading({ tab: 'clip', value: false }));
             dispatch(setTaskId({ tab: 'clip', value: null }));
+            upDateMyInfo();
           }
         } catch (error) {
           console.error('Failed to get task status:', error);
