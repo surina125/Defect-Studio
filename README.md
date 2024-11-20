@@ -27,6 +27,13 @@
 - 기획 및 설계 : 2024.08.19 - 2024.08.23
 - 개발 : 2024.08.26 - 2024.10.10
 
+## 💙 팀원 소개
+
+|  팀장  |  팀원  |  팀원  |  팀원  |  팀원  |  팀원  |
+| :----: | :----: | :----: | :----: | :----: | :----: |
+| 정현수 | 김경대 | 김가람 | 박수진 | 장재훈 | 김범수 |
+|   FE   |   FE   |   BE   |   BE   |   AI   |   AI   |
+
 ## 💙 주요 기능
 
 - **Stable Diffusion**을 이용한 결함 이미지 생성 및 이미지 수정
@@ -89,13 +96,6 @@
 ![Git Badge](https://img.shields.io/badge/Git-F05032?logo=git&logoColor=fff&style=for-the-badge)
 ![Slack Badge](https://img.shields.io/badge/Slack-4A154B?logo=slack&logoColor=fff&style=for-the-badge)
 
-
-## 💙 팀원 소개
-
-|  팀장  |  팀원  |  팀원  |  팀원  |  팀원  |  팀원  |
-| :----: | :----: | :----: | :----: | :----: | :----: |
-| 정현수 | 김경대 | 김가람 | 박수진 | 장재훈 | 김범수 |
-|   FE   |   FE   |   BE   |   BE   |   AI   |   AI   |
 
 ## 💙 협업 방식
 
