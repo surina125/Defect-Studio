@@ -1,24 +1,8 @@
-# 🌟 삼성 청년 SW 아카데미 11기 SDC 1팀 **품행제로** 🌟
+# 🌟 Defect Studio
 
-# 🌳 프로젝트 개요
+## 💙 프로젝트 소개
 
-## ✨ 팀원
-
-|  팀장  |  팀원  |  팀원  |  팀원  |  팀원  |  팀원  |
-| :----: | :----: | :----: | :----: | :----: | :----: |
-| 정현수 | 김경대 | 김가람 | 박수진 | 장재훈 | 김범수 |
-|   FE   |   FE   |   BE   |   BE   |   AI   |   AI   |
-
-## 📅 기간
-
-- 기획 및 설계 : 2024.08.19 - 2024.08.23
-- 개발 : 2024.08.26 - 2024.10.10
-
-<br>
-
-# 💎 소개
-
-### 🌃 기획 의도
+### 기획 의도
 
 > **실제 검증에 쓰이는 AI** 에 학습시킬 양질의 불량 이미지를 만들어 **성능 및 정확도** 를 높이기!
 
@@ -34,11 +18,16 @@
 
 따라서 저희 팀은 **제조 불량 이미지를 생성하는 Gen AI 시스템** 을 개발하여 이를 개선시키고자 합니다.
 
-### 🌃 타겟층
+### 타겟층
 
 **AI를 통해 불량을 판별하는 모든 기업 및 부서**
 
-### 🔍 주요 기능
+## 💙 기간
+
+- 기획 및 설계 : 2024.08.19 - 2024.08.23
+- 개발 : 2024.08.26 - 2024.10.10
+
+## 💙 주요 기능
 
 - **Stable Diffusion**을 이용한 결함 이미지 생성 및 이미지 수정
 
@@ -50,7 +39,7 @@
 
 - **Token 관리 및 통계** 제공
 
-# 🔨 Tech Stack 🔨
+## 💙 Tech Stack
 
 ### Front End
 
@@ -93,25 +82,47 @@
 ![Jenkins Badge](https://img.shields.io/badge/Jenkins-D24939?logo=jenkins&logoColor=fff&style=for-the-badge)
 ![Docker Badge](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=fff&style=for-the-badge)
 
-### Team Collaboration Tools
-
-![Jira Badge](https://img.shields.io/badge/Jira-0052CC?logo=jira&logoColor=fff&style=for-the-badge)
-![GitLab Badge](https://img.shields.io/badge/GitLab-FC6D26?logo=gitlab&logoColor=fff&style=for-the-badge)
+### Communication
+![Jira Badge](https://img.shields.io/badge/Jira-0052CC?logo=jira&logoColor=fff&style=for-the-badge) 
+![GitLab Badge](https://img.shields.io/badge/GitLab-FC6D26?logo=gitlab&logoColor=fff&style=for-the-badge)  
 ![Mattermost Badge](https://img.shields.io/badge/Mattermost-0058CC?logo=mattermost&logoColor=fff&style=for-the-badge)
 ![Git Badge](https://img.shields.io/badge/Git-F05032?logo=git&logoColor=fff&style=for-the-badge)
 ![Slack Badge](https://img.shields.io/badge/Slack-4A154B?logo=slack&logoColor=fff&style=for-the-badge)
 
-### Architecture
 
-![DD](./readme/architecture.png)
+## 💙 팀원 소개
+
+|  팀장  |  팀원  |  팀원  |  팀원  |  팀원  |  팀원  |
+| :----: | :----: | :----: | :----: | :----: | :----: |
+| 정현수 | 김경대 | 김가람 | 박수진 | 장재훈 | 김범수 |
+|   FE   |   FE   |   BE   |   BE   |   AI   |   AI   |
+
+## 💙 협업 방식
+
+- **Git**  
+  - [브랜치 전략 🔗](https://topaz-planet-38b.notion.site/Commit-branch-conventions-0218d4baf6c14dd992c6e39b914df28f)  
+  - MR 시, 팀원이 코드 리뷰를 진행하며 피드백을 공유  
+
+- **JIRA**  
+  - 작업 단위에 따라 `Epic → Story → Task`로 분류  
+  - 매주 목표량을 설정하고 Sprint 진행  
+  - 업무의 할당량에 따라 Story Point를 설정하며 작업은 `In Progress → Done` 순으로 진행  
+
+- **회의**  
+  - **데일리 스크럼**: Slack을 활용해 매일 **오전 10시**와 **오후 5시 10분** 두 차례 스크럼 진행  
+    - 오전: 전날 목표 달성량 점검 및 당일 업무 브리핑  
+    - 오후: 당일 작업 진행 상황 공유 및 다음날 목표 설정  
+  - **멘토링**: 매주 **수요일 3시 ~ 4시**, 삼성전자 생산기술연구소 멘토님과 피드백 세션 진행  
+
+- **Notion**  
+  - 회의록 기록 및 보관  
+  - 컨벤션, 트러블슈팅, 개발 산출물 관리  
+  - Gantt Chart를 통해 프로젝트 일정 및 진행 상황 관리  
+
 
 <br>
 
----
-
-<br>
-
-# 🌍 서비스 기능
+## 💙 서비스 기능
 
 ## 🎯 Generation
 
@@ -271,7 +282,7 @@ AI 생성 및 훈련에 대해서 많은 컴퓨터 자원을 소모합니다. �
 
 ---
 
-# 🔆 기술
+## 💙 기술
 
 ## 🖥️ Front End
 
@@ -320,3 +331,10 @@ Redis와 Celery를 이용하여 비동기 처리를 구현했습니다.
 ## 🎓 AI
 
 Diffusion 및 다양한 AI 모델을 통해 이미지 및 텍스트 등을 생성할 수 있습니다. 특히 diffusers, transformers를 활용해 다양한 Generation AI를 활용하고, DreamBooth 기반의 학습, 모델 Management 등 여러 기능을 제공합니다.
+
+
+<br>
+
+## 💙 Architecture
+
+![DD](./readme/architecture.png)
