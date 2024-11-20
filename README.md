@@ -100,7 +100,7 @@
 ## 💙 협업 방식
 
 - **Git**  
-  - [브랜치 전략 🔗](https://www.notion.so/Branch-Issue-conventions-893b418ac1124be1a108b20edb371990)  
+  - [브랜치 전략 🔗](https://topaz-planet-38b.notion.site/Branch-Issue-conventions-893b418ac1124be1a108b20edb371990)  
   - MR 시, 팀원이 코드 리뷰를 진행하며 피드백을 공유  
 
 - **JIRA**  
